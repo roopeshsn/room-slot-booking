@@ -1,11 +1,14 @@
 <!-- prettier-ignore -->
 {% extends 'layout.html' %} 
 {% block content %}
+{% if user.staff or user.admin %}
 <h1>Manager Page</h1>
 <form action="" method="POST">
   <!-- prettier-ignore -->
   {% csrf_token %} 
-  {{ form.as_p }}
+    {{ form.as_p }}
   <input type="submit" value="Submit" />
 </form>
-{% endblock content %}
+{% else %}
+<h2>Access Denied!</h2>
+{% endif %} {% endblock content %}

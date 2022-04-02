@@ -66,7 +66,7 @@ def dashboard(request):
 @login_required(redirect_field_name='/signin')
 def manage(request):
     form = RoomForm()
-    context = {'form': form}
+    current_user = request.user
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
@@ -77,7 +77,7 @@ def manage(request):
             # room_object = Room(name=name, date=date, defined_check_in_time=defined_check_in_time, defined_check_out_time=defined_check_out_time)
             form.save()
 
-    return render(request, 'base/manage.html', context)
+    return render(request, 'base/manage.html', {'form': form, 'user': current_user})
 
 def room(request, pk):
     room_object = Room.objects.get(id=pk)
