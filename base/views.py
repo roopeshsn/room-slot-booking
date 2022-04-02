@@ -1,12 +1,12 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
-from .forms import UserAdminCreationForm
+from .forms import UserAdminCreationForm, RoomForm
+from .models import Room
 
-# Create your views here.
+User = get_user_model()
 
 def home(request):
     return render(request, 'base/home.html')
@@ -59,9 +59,51 @@ def signoutUser(request):
 
 @login_required(redirect_field_name='/signin')
 def dashboard(request):
-    return render(request, 'base/dashboard.html')
+    rooms = Room.objects.all()
+    context = {'rooms': rooms}
+    return render(request, 'base/dashboard.html', context)
 
+@login_required(redirect_field_name='/signin')
 def manage(request):
-    return render(request, 'base/manage.html')
+    form = RoomForm()
+    context = {'form': form}
+    if request.method == 'POST':
+        form = RoomForm(request.POST)
+        if form.is_valid():
+            # name = form.cleaned_data.get('name')
+            # date = form.cleaned_data.get('date')
+            # defined_check_in_time = form.cleaned_data.get('defined_check_in_time')
+            # defined_check_out_time = form.cleaned_data.get('defined_check_out_time')
+            # room_object = Room(name=name, date=date, defined_check_in_time=defined_check_in_time, defined_check_out_time=defined_check_out_time)
+            form.save()
 
-# if user == User.objects.get(email=user)
+    return render(request, 'base/manage.html', context)
+
+def room(request, pk):
+    room_object = Room.objects.get(id=pk)
+    context = {'room': room_object}
+    return render(request, 'base/room.html', context)
+
+@login_required(redirect_field_name='/signin')
+def bookRoom(request, pk):
+    room_object = Room.objects.get(id=pk)
+    context = {'room': room_object}
+    return render(request, 'base/book_room.html', context)
+
+def updateRoom(request, pk):
+    room_object = Room.objects.get(id=pk)
+    form = RoomForm(instance=room_object)
+    if request.method == 'POST':
+        form = RoomForm(request.POST, instance=room_object)
+        if form.is_valid():
+            form.save()
+    context = {'form': form,'room': room_object}
+    return render(request, 'base/update_room.html', context)
+
+def deleteRoom(request, pk):
+    room_object = Room.objects.get(id=pk)
+    context = {'room': room_object}
+    if request.method == 'POST':
+        room_object.delete()
+        return redirect('dashboard')
+    return render(request, 'base/delete.html', context)

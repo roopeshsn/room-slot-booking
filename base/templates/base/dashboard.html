@@ -1,3 +1,22 @@
-{% extends 'layout.html' %} {% block content %}
+<!-- prettier-ignore -->
+{% extends 'layout.html' %} 
+{% block content %}
 <h1>Dashboard page</h1>
+<div>
+  {% for room in rooms %}
+  <div>
+    <h2>{{room.name}}</h2>
+    <h3>{{room.date}}</h3>
+    <h4>{{room.id}}</h4>
+    <div>
+      <span>Time slot: </span>
+      <span>{{room.defined_check_in_time}}</span>
+      <span>-</span>
+      <span>{{room.defined_check_out_time}}</span>
+    </div>
+    <a href="{% url 'room' room.id %}">Book Room</a>
+    <hr />
+  </div>
+  {% endfor %}
+</div>
 {% endblock content %}

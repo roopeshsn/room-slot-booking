@@ -1,6 +1,8 @@
+from email.policy import default
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from .models import Room
 
 User = get_user_model()
 
@@ -87,3 +89,17 @@ class UserAdminChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+
+
+class RoomForm(forms.ModelForm):
+    # name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter name'}),required=True,max_length=30)
+    # date =  forms.DateField()
+    # defined_check_in_time =  forms.IntegerField()
+    # defined_check_out_time = forms.IntegerField()
+    class Meta:
+        model = Room
+        fields = ['name', 'date', 'defined_check_in_time', 'defined_check_out_time']
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        return cleaned_data

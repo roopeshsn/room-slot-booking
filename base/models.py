@@ -93,3 +93,21 @@ class User(AbstractBaseUser):
     
     objects = UserManager()
 
+class Room(models.Model):
+    name = models.CharField(max_length=30)
+    date =  models.DateField()
+    defined_check_in_time =  models.IntegerField()
+    defined_check_out_time = models.IntegerField()
+    # rn = models.IntegerField()
+    # mid = models.IntegerField()
+    # addate = models.DateField()
+    is_booked = models.BooleanField(default = False)
+
+    USERNAME_FIELD = 'name'
+
+    class Meta:
+        ordering = ['date', 'defined_check_in_time']
+
+    def __str__(self):
+        return self.name
+

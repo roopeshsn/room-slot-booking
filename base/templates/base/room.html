@@ -1,0 +1,6 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %} 
+{% block content %}
+<h1>{{room.name}}</h1>
+<a href="{% url 'book-room' room.id %}">Confirm Booking</a>
+{% endblock content %}
