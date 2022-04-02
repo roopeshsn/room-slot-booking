@@ -1,0 +1,30 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %} 
+{% block content %} 
+{% if page == 'signin' %}
+<div>
+  <form method="POST" action="">
+    {% csrf_token %}
+    <label>Email: </label>
+    <input type="text" name="email" placeholder="your email" />
+
+    <label>Password: </label>
+    <input type="password" name="password" placeholder="your password" />
+
+    <input type="submit" value="Signin" />
+  </form>
+  <p>Don't have an account?</p>
+  <a href="{% url 'signup' %}">Signup</a>
+</div>
+{% else %}
+<div>
+  <form method="POST" action="">
+    {% csrf_token %} {{form.as_p}}
+    <input type="submit" value="Signup" />
+  </form>
+  <p>Already have an account?</p>
+  <a href="{% url 'signin' %}">Signin</a>
+</div>
+<!-- prettier-ignore -->
+{% endif %} 
+{% endblock content %}

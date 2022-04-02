@@ -1,3 +1,10 @@
-{% extends 'layout.html' %} {% block content %}
+<!-- prettier-ignore -->
+{% extends 'layout.html' %}
+{% block content %}
+{% if request.user.is_authenticated %}
+<a href="{% url 'signout' %}">Signout</a>
+{% else %}
+<a href="{% url 'signin' %}">Signin</a>
+{% endif %}
 <h1>Home Page</h1>
 {% endblock content %}
