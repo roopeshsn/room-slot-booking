@@ -1,5 +1,4 @@
 from django.db import models
-
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -101,7 +100,7 @@ class Room(models.Model):
     # rn = models.IntegerField()
     # mid = models.IntegerField()
     # addate = models.DateField()
-    is_booked = models.BooleanField(default = False)
+    booked = models.BooleanField(default = False)
 
     USERNAME_FIELD = 'name'
 
@@ -110,4 +109,19 @@ class Room(models.Model):
 
     def __str__(self):
         return self.name
+
+    def is_booked(self):
+        return self.booked
+
+    def set_booked(self):
+        self.booked = True
+
+
+class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f'{self.user} has booked {self.room} from {self.room.defined_check_in_time} to {self.room.defined_check_out_time} on {self.room.date}'
+
 

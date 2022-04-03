@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import UserAdminCreationForm, RoomForm
-from .models import Room
+from .models import Room, Booking
 
 User = get_user_model()
 
@@ -79,6 +79,12 @@ def manage(request):
 
     return render(request, 'base/manage.html', {'form': form, 'user': current_user})
 
+def viewBookings(request):
+    all_bookings = Booking.objects.all()
+    print(all_bookings)
+    context = {'bookings': all_bookings}
+    return render(request, 'base/bookings.html', context)
+
 def room(request, pk):
     room_object = Room.objects.get(id=pk)
     context = {'room': room_object}
@@ -86,8 +92,18 @@ def room(request, pk):
 
 @login_required(redirect_field_name='/signin')
 def bookRoom(request, pk):
+    status = False
+    user_object = User.objects.get(email=request.user)
     room_object = Room.objects.get(id=pk)
-    context = {'room': room_object}
+
+    if room_object.booked == False:
+        Room.objects.filter(id=pk).update(booked=True)
+        Booking.objects.create(user=user_object, room=room_object)
+        status = True
+    else:
+        status = False
+
+    context = {'user': user_object, 'room': room_object, 'status': status}
     return render(request, 'base/book_room.html', context)
 
 def updateRoom(request, pk):

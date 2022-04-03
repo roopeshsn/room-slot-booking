@@ -2,5 +2,8 @@
 {% extends 'layout.html' %} 
 {% block content %}
 <h1>{{room.name}}</h1>
+{% if status%}
 <p>You're room was successfully booked!</p>
-{% endblock content %}
+{% else %}
+<p>Room was already booked! Try booking another room</p>
+{% endif %} {% endblock content %}

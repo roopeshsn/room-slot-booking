@@ -3,6 +3,7 @@
 {% block content %}
 {% if user.staff or user.admin %}
 <h1>Manager Page</h1>
+<a href="/manage/bookings">View Bookings</a>
 <form action="" method="POST">
   <!-- prettier-ignore -->
   {% csrf_token %} 

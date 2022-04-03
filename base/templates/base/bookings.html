@@ -1,0 +1,12 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %} 
+{% block content %}
+<h1>View Bookings</h1>
+<div>
+  {% for booking in bookings %}
+  <div>
+    <p>{{booking}}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}
