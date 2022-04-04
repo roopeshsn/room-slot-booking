@@ -1,0 +1,13 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %} 
+{% block content %}
+<h1>Your Bookings</h1>
+<div>
+  {% for booking in bookings %}
+  <div>
+    <h3>{{booking.room.name}}</h3>
+    <a href="{% url 'cancel-room'  booking.room.id %}">Cancel Booking</a>
+  </div>
+  {% endfor%}
+</div>
+{% endblock content %}

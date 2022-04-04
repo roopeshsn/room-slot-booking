@@ -1,3 +1,4 @@
+from urllib import robotparser
 from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -93,18 +94,36 @@ def room(request, pk):
 @login_required(redirect_field_name='/signin')
 def bookRoom(request, pk):
     status = False
+    message = 'default'
     user_object = User.objects.get(email=request.user)
     room_object = Room.objects.get(id=pk)
+    booking_object = Booking.objects.get(user=user_object, room=room_object)
 
     if room_object.booked == False:
         Room.objects.filter(id=pk).update(booked=True)
         Booking.objects.create(user=user_object, room=room_object)
+        message = 'Room booked successfully!'
+        status = True
+    elif booking_object:
+        message = 'You already booked the room!'
         status = True
     else:
+        message = 'Room was already booked!'
         status = False
 
-    context = {'user': user_object, 'room': room_object, 'status': status}
+    context = {'user': user_object, 'room': room_object, 'status': status, 'message': message}
     return render(request, 'base/book_room.html', context)
+
+def cancelRoom(request, pk):
+    user_object = User.objects.get(email=request.user)
+    room_object = Room.objects.get(id=pk)
+    booking_object = Booking.objects.filter(user=user_object, room=room_object)
+    if request.method == 'POST':
+        booking_object.delete()
+        Room.objects.filter(id=pk).update(booked=False)
+        return redirect('dashboard')
+    context = {'booking': booking_object}
+    return render(request, 'base/cancel_room.html', context)
 
 def updateRoom(request, pk):
     room_object = Room.objects.get(id=pk)
@@ -123,3 +142,12 @@ def deleteRoom(request, pk):
         room_object.delete()
         return redirect('dashboard')
     return render(request, 'base/delete.html', context)
+
+def userBookings(request):
+    user_object = User.objects.get(email=request.user.email)
+    booking_object = Booking.objects.filter(user=user_object)
+    context = {'user': user_object, 'bookings': booking_object}
+    print(user_object)
+    print(booking_object[0].room.name)
+
+    return render(request, 'base/user_bookings.html', context)

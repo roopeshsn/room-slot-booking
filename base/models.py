@@ -1,3 +1,4 @@
+from operator import mod
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -97,9 +98,6 @@ class Room(models.Model):
     date =  models.DateField()
     defined_check_in_time =  models.IntegerField()
     defined_check_out_time = models.IntegerField()
-    # rn = models.IntegerField()
-    # mid = models.IntegerField()
-    # addate = models.DateField()
     booked = models.BooleanField(default = False)
 
     USERNAME_FIELD = 'name'
@@ -118,10 +116,10 @@ class Room(models.Model):
 
 
 class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    room = models.ForeignKey(Room, on_delete=models.DO_NOTHING)
     
-    def __str__(self):
-        return f'{self.user} has booked {self.room} from {self.room.defined_check_in_time} to {self.room.defined_check_out_time} on {self.room.date}'
+    # def __str__(self):
+    #     return f'{self.user} has booked {self.room} from {self.room.defined_check_in_time} to {self.room.defined_check_out_time} on {self.room.date}'
 
 

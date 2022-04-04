@@ -1,0 +1,12 @@
+<!-- prettier-ignore -->
+{% extends 'layout.html' %} 
+{% block content %}
+<h1>Cancel Room</h1>
+<form method="POST" action="">
+  {% csrf_token %} {% for b in booking %}
+  <p>Are you sure you want to cancel <b>{{b.room.name}}</b>?</p>
+  {% endfor %}
+  <a href="{{request.META.HTTP_REFERER}}">Cancel</a>
+  <input type="submit" value="Confirm" />
+</form>
+{% endblock content %}
