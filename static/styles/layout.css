@@ -1,0 +1,130 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.clear {
+  clear: both;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  /* background: url(/images/wallpaper.png) repeat;  */
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+p {
+  color: #2d3748;
+}
+
+#wrapper {
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+  background-color: #ffffff;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem 0;
+}
+
+.nav-brand {
+  text-decoration: none;
+  font-size: 1.25rem;
+  color: black;
+}
+
+.nav-brand:hover {
+  text-decoration: underline;
+}
+
+.nav-profile {
+  font-size: 1rem;
+  color: #2d3748;
+}
+
+.home-wrapper {
+  max-width: 640px;
+}
+
+.home-des {
+  margin-top: 0.5rem;
+}
+
+.starter {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.starter a {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+}
+
+.btn-signout {
+  background-color: gainsboro;
+  color: black;
+}
+
+.btn-signin {
+  background-color: gainsboro;
+  color: black;
+}
+
+.btn-signup {
+  background-color: green;
+  color: white;
+  margin-left: 1rem;
+}
+
+@media only screen and (min-width: 1050px) {
+  #wrapper {
+    width: 980px;
+  }
+
+  h1 {
+    font-size: 2.2em;
+    font-weight: 600;
+  }
+
+  h2 {
+    font-size: 2em;
+  }
+
+  h3 {
+    font-size: 1.8em;
+  }
+
+  h4 {
+    font-size: 1.6em;
+  }
+
+  h5 {
+    font-size: 1.4em;
+  }
+
+  .nav-brand {
+    font-size: 1.5rem;
+  }
+}

@@ -80,12 +80,14 @@ def manage(request):
 
     return render(request, 'base/manage.html', {'form': form, 'user': current_user})
 
+@login_required(redirect_field_name='/signin')
 def viewBookings(request):
     all_bookings = Booking.objects.all()
     print(all_bookings)
     context = {'bookings': all_bookings}
     return render(request, 'base/bookings.html', context)
 
+@login_required(redirect_field_name='/signin')
 def room(request, pk):
     room_object = Room.objects.get(id=pk)
     context = {'room': room_object}
@@ -94,7 +96,7 @@ def room(request, pk):
 @login_required(redirect_field_name='/signin')
 def bookRoom(request, pk):
     status = False
-    message = 'default'
+    message = 'Room was already booked!'
     user_object = User.objects.get(email=request.user)
     room_object = Room.objects.get(id=pk)
     booking_object = Booking.objects.get(user=user_object, room=room_object)
@@ -114,6 +116,7 @@ def bookRoom(request, pk):
     context = {'user': user_object, 'room': room_object, 'status': status, 'message': message}
     return render(request, 'base/book_room.html', context)
 
+@login_required(redirect_field_name='/signin')
 def cancelRoom(request, pk):
     user_object = User.objects.get(email=request.user)
     room_object = Room.objects.get(id=pk)
@@ -125,6 +128,7 @@ def cancelRoom(request, pk):
     context = {'booking': booking_object}
     return render(request, 'base/cancel_room.html', context)
 
+@login_required(redirect_field_name='/signin')
 def updateRoom(request, pk):
     room_object = Room.objects.get(id=pk)
     form = RoomForm(instance=room_object)
@@ -135,6 +139,7 @@ def updateRoom(request, pk):
     context = {'form': form,'room': room_object}
     return render(request, 'base/update_room.html', context)
 
+@login_required(redirect_field_name='/signin')
 def deleteRoom(request, pk):
     room_object = Room.objects.get(id=pk)
     context = {'room': room_object}
@@ -143,6 +148,7 @@ def deleteRoom(request, pk):
         return redirect('dashboard')
     return render(request, 'base/delete.html', context)
 
+@login_required(redirect_field_name='/signin')
 def userBookings(request):
     user_object = User.objects.get(email=request.user.email)
     booking_object = Booking.objects.filter(user=user_object)

@@ -1,10 +1,20 @@
 <!-- prettier-ignore -->
 {% extends 'layout.html' %}
 {% block content %}
-{% if request.user.is_authenticated %}
-<a href="{% url 'signout' %}">Signout</a>
-{% else %}
-<a href="{% url 'signin' %}">Signin</a>
-{% endif %}
-<h1>Home Page</h1>
+<div class="home-wrapper">
+  <h1>Room Slot Booking</h1>
+  <p class="home-des">
+    This is an room slot booking application built using Django and Django Rest
+    Framework. This appication is built for FOSSEE 2022. Signup to Get started
+    or Signin to continue.
+  </p>
+  <div class="starter">
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'signout' %}" class="btn-signout">Signout</a>
+    {% else %}
+    <a href="{% url 'signin' %}" class="btn-signin">Signin</a>
+    {% endif %}
+    <a href="{% url 'signup' %}" class="btn-signup">Signup</a>
+  </div>
+</div>
 {% endblock content %}

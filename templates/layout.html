@@ -1,20 +1,24 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Room Management</title>
+    <link rel="stylesheet" href="{% static 'styles/layout.css' %}" />
   </head>
   <body>
-    {% include 'navbar.html' %} 
-    {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-    {% block content %} {% endblock %}
+    <div id="wrapper">
+      {% include 'navbar.html' %} 
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% block content %} {% endblock %}
+    </div>
   </body>
 </html>

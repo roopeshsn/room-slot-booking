@@ -2,8 +2,11 @@
 {% extends 'layout.html' %} 
 {% block content %}
 <h1>{{room.name}}</h1>
-{% if status%}
-<p>You're room was successfully booked!</p>
+{% if status and message == "Room booked successfully!" %}
+<p>{{message}}</p>
+<!-- prettier-ignore -->
+{% elif status and message == "You already booked the room!" %}
+<p>{{message}}</p>
 {% else %}
-<p>Room was already booked! Try booking another room</p>
+<p>{{message}}</p>
 {% endif %} {% endblock content %}
