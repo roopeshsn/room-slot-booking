@@ -1,17 +1,50 @@
 <!-- prettier-ignore -->
-{% extends 'layout.html' %} 
-{% block content %} 
-{% if page == 'signin' %}
+<style>
+  form {
+    max-width: 400px;
+  }
+
+  .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .label {
+    margin-bottom: 1rem;
+  }
+
+  input[type=text], input[type=password] {
+    width: 100%;
+    padding: 0.75rem 0.5rem;
+    border: 2px solid gainsboro;
+    border-radius: 4px;
+  }
+
+  input[type=submit] {
+    width: 100%;
+    padding: 0.75rem 0.5rem;
+  }
+</style>
+{% extends 'layout.html' %} {% block content %} {% if page == 'signin' %}
 <div>
   <form method="POST" action="">
     {% csrf_token %}
-    <label>Email: </label>
-    <input type="text" name="email" placeholder="your email" />
+    <div class="form-wrapper">
+      <div class="form-group">
+        <label class="label">Email: </label>
+        <input type="text" name="email" placeholder="your email" />
+      </div>
 
-    <label>Password: </label>
-    <input type="password" name="password" placeholder="your password" />
+      <div class="form-group">
+        <label class="label">Password: </label>
+        <input type="password" name="password" placeholder="your password" />
+      </div>
 
-    <input type="submit" value="Signin" />
+      <div class="form-group">
+        <input type="submit" value="Signin" />
+      </div>
+    </div>
   </form>
   <p>Don't have an account?</p>
   <a href="{% url 'signup' %}">Signup</a>
@@ -19,8 +52,11 @@
 {% else %}
 <div>
   <form method="POST" action="">
-    {% csrf_token %} {{form.as_p}}
-    <input type="submit" value="Signup" />
+    {% csrf_token %}
+    <div class="form-group">{{form}}</div>
+    <div>
+      <input type="submit" value="Signup" />
+    </div>
   </form>
   <p>Already have an account?</p>
   <a href="{% url 'signin' %}">Signin</a>

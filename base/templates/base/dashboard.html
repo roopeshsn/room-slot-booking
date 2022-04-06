@@ -1,20 +1,68 @@
 <!-- prettier-ignore -->
-{% extends 'layout.html' %} 
-{% block content %}
+<style>
+  h1 {
+    margin-bottom: 1.25rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .room-wrapper {
+    max-width: 400px;
+  }
+
+  .room-wrapper {
+    margin-bottom: 1rem;
+  }
+
+  .room-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .room-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+
+  .time-slot{
+    font-weight: bold;
+  }
+
+  .btn-book-room {
+    text-decoration: none;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    background-color: green;
+    color: white;
+  }
+</style>
+{% extends 'layout.html' %} {% block content %}
 <h1>Dashboard page</h1>
-<div>
+<div class="rooms-wrapper">
   {% for room in rooms %}
-  <div>
-    <h2>{{room.name}}</h2>
-    <h3>{{room.date}}</h3>
-    <h4>{{room.id}}</h4>
-    <div>
-      <span>Time slot: </span>
-      <span>{{room.defined_check_in_time}}</span>
-      <span>-</span>
-      <span>{{room.defined_check_out_time}}</span>
+  <div class="room-wrapper">
+    <div class="room-header">
+      <span><h2>{{room.name}}</h2></span>
+      <span>{{room.date}}</span>
     </div>
-    <a href="{% url 'room' room.id %}">Book Room</a>
+    <div class="room-body">
+      <div>
+        <span class="time-slot">Time slot: </span>
+        <span>{{room.defined_check_in_time}}</span>
+        <span>-</span>
+        <span>{{room.defined_check_out_time}}</span>
+      </div>
+      <div>
+        <a class="btn-book-room" href="{% url 'room' room.id %}">Book Room</a>
+      </div>
+    </div>
     <hr />
   </div>
   {% endfor %}
