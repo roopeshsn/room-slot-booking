@@ -1,7 +1,7 @@
 <!-- prettier-ignore -->
 <style>
   h1 {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   h2 {
@@ -46,6 +46,7 @@
 {% extends 'layout.html' %} {% block content %}
 <h1>Dashboard page</h1>
 <div class="rooms-wrapper">
+  <a href="{% url 'user-bookings' %}">View your bookings</a>
   {% for room in rooms %}
   <div class="room-wrapper">
     <div class="room-header">
@@ -63,8 +64,8 @@
         <a class="btn-book-room" href="{% url 'room' room.id %}">Book Room</a>
       </div>
     </div>
-    <hr />
   </div>
+  <hr />
   {% endfor %}
 </div>
 {% endblock content %}

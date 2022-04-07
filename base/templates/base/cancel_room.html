@@ -1,3 +1,29 @@
+<style>
+  form {
+    margin-top: 1rem;
+  }
+
+  .btn-wrapper {
+    margin-top: 0.75rem;
+  }
+
+  .btn-cancel {
+    text-decoration: none;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    background-color: gainsboro;
+    color: black;
+    font-size: 0.75rem;
+  }
+
+  input[type="submit"] {
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    background-color: yellow;
+    color: black;
+  }
+</style>
+
 <!-- prettier-ignore -->
 {% extends 'layout.html' %} 
 {% block content %}
@@ -6,7 +32,9 @@
   {% csrf_token %} {% for b in booking %}
   <p>Are you sure you want to cancel <b>{{b.room.name}}</b>?</p>
   {% endfor %}
-  <a href="{{request.META.HTTP_REFERER}}">Cancel</a>
-  <input type="submit" value="Confirm" />
+  <div class="btn-wrapper">
+    <a class="btn-cancel" href="{{request.META.HTTP_REFERER}}">Cancel</a>
+    <input type="submit" value="Confirm" />
+  </div>
 </form>
 {% endblock content %}

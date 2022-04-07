@@ -1,12 +1,33 @@
+<style>
+  .btn-wrapper {
+    margin-top: 1rem;
+  }
+
+  .btn-info {
+    text-decoration: none;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    background-color: #add8e6;
+    color: #0047ab;
+    font-weight: 600;
+  }
+</style>
+
 <!-- prettier-ignore -->
 {% extends 'layout.html' %} 
 {% block content %}
-<h1>{{room.name}}</h1>
-{% if status and message == "Room booked successfully!" %}
-<p>{{message}}</p>
-<!-- prettier-ignore -->
-{% elif status and message == "You already booked the room!" %}
-<p>{{message}}</p>
-{% else %}
-<p>{{message}}</p>
-{% endif %} {% endblock content %}
+<div>
+  <h1>Status - {{room.name}}</h1>
+  {% if status and message == "Room booked successfully!" %}
+  <p>{{message}}</p>
+  <!-- prettier-ignore -->
+  {% elif status and message == "You already booked the room!" %}
+  <p>{{message}}</p>
+  {% else %}
+  <p>{{message}}</p>
+  {% endif %}
+  <div class="btn-wrapper">
+    <a class="btn-info" href="{% url 'dashboard' %}">Back to Dashboard</a>
+  </div>
+</div>
+{% endblock content %}

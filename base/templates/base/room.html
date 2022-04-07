@@ -1,6 +1,30 @@
+<style>
+  p {
+    font-size: 1.25rem;
+  }
+
+  .btn-wrapper {
+    margin-top: 1rem;
+  }
+
+  .btn-book-room {
+    text-decoration: none;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    background-color: green;
+    color: white;
+  }
+</style>
+
 <!-- prettier-ignore -->
 {% extends 'layout.html' %} 
 {% block content %}
-<h1>{{room.name}}</h1>
-<a href="{% url 'book-room' room.id %}">Confirm Booking</a>
+<div>
+  <p>Are you sure, you want to book <b>{{room.name}}?</b></p>
+  <div class="btn-wrapper">
+    <a class="btn-book-room" href="{% url 'book-room' room.id %}"
+      >Confirm Booking</a
+    >
+  </div>
+</div>
 {% endblock content %}

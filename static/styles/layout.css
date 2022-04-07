@@ -32,6 +32,10 @@ p {
   color: #2d3748;
 }
 
+ul {
+  list-style: none;
+}
+
 #wrapper {
   text-align: left;
   margin-left: auto;
@@ -85,6 +89,7 @@ nav {
 .btn-signout {
   background-color: gainsboro;
   color: black;
+  margin-left: 1rem;
 }
 
 .btn-signin {
@@ -96,6 +101,11 @@ nav {
   background-color: green;
   color: white;
   margin-left: 1rem;
+}
+
+.btn-dashboard {
+  background-color: green;
+  color: white;
 }
 
 @media only screen and (min-width: 1050px) {

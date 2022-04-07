@@ -10,11 +10,12 @@
   </p>
   <div class="starter">
     {% if request.user.is_authenticated %}
+    <a href="{% url 'dashboard' %}" class="btn-dashboard">Dashboard</a>
     <a href="{% url 'signout' %}" class="btn-signout">Signout</a>
     {% else %}
     <a href="{% url 'signin' %}" class="btn-signin">Signin</a>
-    {% endif %}
     <a href="{% url 'signup' %}" class="btn-signup">Signup</a>
+    {% endif %}
   </div>
 </div>
 {% endblock content %}

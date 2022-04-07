@@ -46,12 +46,24 @@ class UserAdminCreationForm(forms.ModelForm):
     A form for creating new users. Includes all the required
     fields, plus a repeated password.
     """
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Set Password',
+        'class': 'form-control',
+    }))
+    password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={
+        'placeholder': 'Confirm Password',
+        'class': 'form-control',
+    }))
 
     class Meta:
         model = User
         fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': "form-control", 
+                'placeholder': 'Your Email'
+            })
+        }
 
     def clean(self):
         '''
@@ -82,7 +94,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'is_active', 'staff', 'admin']
+        fields = ('email', 'password', 'is_active', 'staff', 'admin')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -92,13 +104,15 @@ class UserAdminChangeForm(forms.ModelForm):
 
 
 class RoomForm(forms.ModelForm):
-    # name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter name'}),required=True,max_length=30)
-    # date =  forms.DateField()
-    # defined_check_in_time =  forms.IntegerField()
-    # defined_check_out_time = forms.IntegerField()
     class Meta:
         model = Room
-        fields = ['name', 'date', 'defined_check_in_time', 'defined_check_out_time']
+        fields = ('name', 'date', 'defined_check_in_time', 'defined_check_out_time')
+        widgets = {
+            'name': forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Room Name'}),
+            'date': forms.DateInput(attrs={'class': "form-control", 'placeholder': 'Year-Month-Date'}),
+            'defined_check_in_time': forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Start Time'}),
+            'defined_check_out_time': forms.TextInput(attrs={'class': "form-control", 'placeholder': 'End Time'}),
+        }
 
     def clean(self):
         cleaned_data = self.cleaned_data

@@ -77,6 +77,7 @@ def manage(request):
             # defined_check_out_time = form.cleaned_data.get('defined_check_out_time')
             # room_object = Room(name=name, date=date, defined_check_in_time=defined_check_in_time, defined_check_out_time=defined_check_out_time)
             form.save()
+            return redirect('dashboard')
 
     return render(request, 'base/manage.html', {'form': form, 'user': current_user})
 
@@ -99,7 +100,7 @@ def bookRoom(request, pk):
     message = 'Room was already booked!'
     user_object = User.objects.get(email=request.user)
     room_object = Room.objects.get(id=pk)
-    booking_object = Booking.objects.get(user=user_object, room=room_object)
+    booking_object = Booking.objects.filter(user=user_object, room=room_object)
 
     if room_object.booked == False:
         Room.objects.filter(id=pk).update(booked=True)
