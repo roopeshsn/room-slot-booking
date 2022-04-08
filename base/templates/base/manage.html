@@ -1,37 +1,17 @@
-<style>
-  form {
-    max-width: 400px;
-    margin-top: 1rem;
-  }
-
-  input[type="text"],
-  input[type="password"],
-  input[type="email"] {
-    width: 100%;
-    padding: 0.75rem 0.5rem;
-    border: 2px solid gainsboro;
-    border-radius: 4px;
-    margin: 0.5rem 0;
-  }
-
-  input[type="submit"] {
-    width: 100%;
-    padding: 0.75rem 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-</style>
+<style></style>
 <!-- prettier-ignore -->
 {% extends 'layout.html' %} 
 {% block content %} 
 {% if user.staff or user.admin %}
-<h1>Manager Page</h1>
-<a href="/manage/bookings">View Bookings</a>
-<form action="" method="POST">
-  <!-- prettier-ignore -->
-  {% csrf_token %} 
-    {{form}}
-  <input type="submit" value="Submit" />
-</form>
+<div>
+  <h1>Manager Page</h1>
+  <p>This is the page for the Room Manager to add and view the booked rooms</p>
+  <div class="btn-wrapper">
+    <a href="{% url 'add-rooms' %}">Add Rooms</a>
+    <a href="{% url 'bookings' %}">View Bookings</a>
+    <a href="{% url 'view-rooms' %}">View Rooms</a>
+  </div>
+</div>
 {% else %}
 <h2>Access Denied!</h2>
 {% endif %} {% endblock content %}

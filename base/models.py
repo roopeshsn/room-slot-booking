@@ -117,7 +117,7 @@ class Room(models.Model):
 
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    room = models.ForeignKey(Room, on_delete=models.DO_NOTHING)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     
     # def __str__(self):
     #     return f'{self.user} has booked {self.room} from {self.room.defined_check_in_time} to {self.room.defined_check_out_time} on {self.room.date}'

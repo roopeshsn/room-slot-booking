@@ -9,7 +9,11 @@
     or Signin to continue.
   </p>
   <div class="starter">
-    {% if request.user.is_authenticated %}
+    {% if request.user.is_authenticated and request.user.staff %}
+    <a href="{% url 'dashboard' %}" class="btn-dashboard">Dashboard</a>
+    <a href="{% url 'manage' %}" class="btn-manage">Manage</a>
+    <a href="{% url 'signout' %}" class="btn-signout">Signout</a>
+    {% elif request.user.is_authenticated and not request.user.staff %}
     <a href="{% url 'dashboard' %}" class="btn-dashboard">Dashboard</a>
     <a href="{% url 'signout' %}" class="btn-signout">Signout</a>
     {% else %}

@@ -29,6 +29,9 @@
 {% block content %}
 <div class="bookings-wrapper">
   <h1>Your Bookings</h1>
+  {% if not bookings %}
+  <p>No bookings found!</p>
+  {% else %}
   <div class="table-wrapper">
     <table>
       <tr>
@@ -46,14 +49,15 @@
         <td>{{booking.room.defined_check_in_time}}</td>
         <td>{{booking.room.defined_check_out_time}}</td>
         <td>
-          <a class="btn-cancel" href="{% url 'cancel-room'  booking.room.id %}"
-            >Cancel Booking</a
-          >
+          <a class="btn-cancel" href="{% url 'cancel-room' booking.room.id %}">
+            Cancel Booking
+          </a>
         </td>
       </tr>
 
       {% endfor%}
     </table>
   </div>
+  {% endif %}
 </div>
 {% endblock content %}

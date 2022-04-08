@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserAdminCreationForm, RoomForm
+from .forms import UserAdminCreationForm, RoomForm, UserAdminChangeForm
 from .models import Room, Booking
 
 User = get_user_model()
@@ -65,7 +65,18 @@ def dashboard(request):
     return render(request, 'base/dashboard.html', context)
 
 @login_required(redirect_field_name='/signin')
+def userProfile(request):
+    user = User.objects.get(email=request.user)
+    form = UserAdminChangeForm(instance=user)
+    context = {'form': form}
+    return render(request, 'base/profile.html', context)
+
+@login_required(redirect_field_name='/signin')
 def manage(request):
+    return render(request, 'base/manage.html')
+
+@login_required(redirect_field_name='/signin')
+def addRooms(request):
     form = RoomForm()
     current_user = request.user
     if request.method == 'POST':
@@ -79,7 +90,13 @@ def manage(request):
             form.save()
             return redirect('dashboard')
 
-    return render(request, 'base/manage.html', {'form': form, 'user': current_user})
+    return render(request, 'base/manage_rooms.html', {'form': form, 'user': current_user})
+
+@login_required(redirect_field_name='/signin')
+def viewRooms(request):
+    rooms = Room.objects.all()
+    context = {'rooms': rooms}
+    return render(request, 'base/view_rooms.html', context)
 
 @login_required(redirect_field_name='/signin')
 def viewBookings(request):
@@ -137,6 +154,7 @@ def updateRoom(request, pk):
         form = RoomForm(request.POST, instance=room_object)
         if form.is_valid():
             form.save()
+            return redirect('dashboard')
     context = {'form': form,'room': room_object}
     return render(request, 'base/update_room.html', context)
 
@@ -146,7 +164,7 @@ def deleteRoom(request, pk):
     context = {'room': room_object}
     if request.method == 'POST':
         room_object.delete()
-        return redirect('dashboard')
+        return redirect('view-rooms')
     return render(request, 'base/delete.html', context)
 
 @login_required(redirect_field_name='/signin')
@@ -154,7 +172,5 @@ def userBookings(request):
     user_object = User.objects.get(email=request.user.email)
     booking_object = Booking.objects.filter(user=user_object)
     context = {'user': user_object, 'bookings': booking_object}
-    print(user_object)
-    print(booking_object[0].room.name)
 
     return render(request, 'base/user_bookings.html', context)

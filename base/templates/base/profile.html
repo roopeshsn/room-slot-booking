@@ -28,11 +28,11 @@
 {% extends 'layout.html' %} 
 {% block content %}
 <div class="update-wrapper">
-  <h1>Update Room</h1>
+  <h1>User Profile</h1>
   <form action="" method="POST">
     <!-- prettier-ignore -->
     {% csrf_token %} 
-    {{ form.as_p }}
+  {{ form.as_p }}
     <input type="submit" value="Submit" />
   </form>
 </div>

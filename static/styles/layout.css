@@ -108,6 +108,12 @@ nav {
   color: white;
 }
 
+.btn-manage {
+  background-color: #ffbb33;
+  color: white;
+  margin-left: 1rem;
+}
+
 @media only screen and (min-width: 1050px) {
   #wrapper {
     width: 980px;

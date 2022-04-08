@@ -1,9 +1,6 @@
 <style>
-  .update-wrapper {
-    max-width: 400px;
-  }
-
   form {
+    max-width: 400px;
     margin-top: 1rem;
   }
 
@@ -23,17 +20,17 @@
     margin-bottom: 0.5rem;
   }
 </style>
-
 <!-- prettier-ignore -->
 {% extends 'layout.html' %} 
-{% block content %}
-<div class="update-wrapper">
-  <h1>Update Room</h1>
-  <form action="" method="POST">
-    <!-- prettier-ignore -->
-    {% csrf_token %} 
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
-  </form>
-</div>
-{% endblock content %}
+{% block content %} 
+{% if user.staff or user.admin %}
+<h1>Add Rooms</h1>
+<form action="" method="POST">
+  <!-- prettier-ignore -->
+  {% csrf_token %} 
+  {{form}}
+  <input type="submit" value="Submit" />
+</form>
+{% else %}
+<h2>Access Denied!</h2>
+{% endif %} {% endblock content %}
