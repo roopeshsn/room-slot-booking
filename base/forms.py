@@ -111,10 +111,11 @@ class UserAdminChangeForm(forms.ModelForm):
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
-        fields = ('name', 'date', 'defined_check_in_time', 'defined_check_out_time')
+        fields = ('name', 'date', 'advance_booking', 'defined_check_in_time', 'defined_check_out_time')
         widgets = {
             'name': forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Room Name'}),
             'date': forms.DateInput(attrs={'class': "form-control", 'type': "date"}),
+            'advance_booking': forms.NumberInput(attrs={'class': "form-control", 'placeholder': 'Advance Booking (default = 3 days)', 'type': "number"}),
             'defined_check_in_time': forms.TimeInput(attrs={'class': "form-control", 'type': "time"}),
             'defined_check_out_time': forms.TimeInput(attrs={'class': "form-control", 'type': "time"}),
         }

@@ -5,10 +5,14 @@
 
   .total-rooms {
     margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid gainsboro;
   }
 
   .room-wrapper {
     margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid gainsboro;
   }
 
   .room-header {
@@ -25,8 +29,9 @@
     margin-top: 0.5rem;
   }
 
-  .time-slot {
-    font-weight: bold;
+  .advance {
+    color: gray;
+    font-size: 0.875rem;
   }
 </style>
 <!-- prettier-ignore -->
@@ -34,7 +39,7 @@
 {% block content %} 
 {% if user.staff or user.admin %}
 <div class="rooms-wrapper">
-  <h1>View Your Rooms</h1>
+  <h1>View Rooms</h1>
   {% if not rooms %}
   <div class="info-wrapper">
     <p class="info">No rooms found!</p>
@@ -47,14 +52,21 @@
   <div class="room-wrapper">
     <div class="room-header">
       <span><h2>{{room.name}}</h2></span>
-      <span>{{room.date}}</span>
+      <span class="bold">{{room.date}}</span>
     </div>
     <div class="room-body">
       <div>
-        <span class="time-slot">Time slot: </span>
-        <span>{{room.defined_check_in_time}}</span>
-        <span>-</span>
-        <span>{{room.defined_check_out_time}}</span>
+        <div>
+          <span class="time-slot">Time slot: </span>
+          <span>{{room.defined_check_in_time}}</span>
+          <span>-</span>
+          <span>{{room.defined_check_out_time}}</span>
+        </div>
+        <div>
+          <p class="advance">
+            {{room.advance_booking}} days to book in advance
+          </p>
+        </div>
       </div>
       <div>
         <a

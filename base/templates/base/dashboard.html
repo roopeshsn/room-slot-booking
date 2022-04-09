@@ -6,10 +6,14 @@
   .available {
     margin-top: 2rem;
     margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid gainsboro;
   }
 
   .room-wrapper {
     margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid gainsboro;
   }
 
   .room-header {
@@ -25,6 +29,11 @@
     justify-content: space-between;
     margin-top: 0.5rem;
   }
+
+  .advance {
+    color: gray;
+    font-size: 0.875rem;
+  }
 </style>
 <!-- prettier-ignore -->
 {% extends 'layout.html' %} {% block content %}
@@ -34,7 +43,9 @@
 >
 <div class="rooms-wrapper">
   {% if not rooms %}
-  <p>No rooms are there to book!</p>
+  <div class="info-wrapper">
+    <p class="info">No rooms are there to book!</p>
+  </div>
   {% else %}
   <h2 class="available">Available Rooms</h2>
   {% for room in rooms %}
@@ -45,10 +56,17 @@
     </div>
     <div class="room-body">
       <div>
-        <span class="bold">Time slot: </span>
-        <span>{{room.defined_check_in_time}}</span>
-        <span>-</span>
-        <span>{{room.defined_check_out_time}}</span>
+        <div>
+          <span class="bold">Time slot: </span>
+          <span>{{room.defined_check_in_time}}</span>
+          <span>to</span>
+          <span>{{room.defined_check_out_time}}</span>
+        </div>
+        <div>
+          <p class="advance">
+            {{room.advance_booking}} days to book in advance
+          </p>
+        </div>
       </div>
       <div>
         <a class="btn btn-md btn-primary" href="{% url 'room' room.id %}"
@@ -57,7 +75,6 @@
       </div>
     </div>
   </div>
-  <hr />
   {% endfor %} {% endif %}
 </div>
 {% endblock content %}

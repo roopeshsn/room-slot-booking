@@ -98,6 +98,7 @@ class Room(models.Model):
     date =  models.DateField()
     defined_check_in_time =  models.TimeField()
     defined_check_out_time = models.TimeField()
+    advance_booking = models.IntegerField(default = 3)
     booked = models.BooleanField(default = False)
 
     USERNAME_FIELD = 'name'
