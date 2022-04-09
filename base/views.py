@@ -1,11 +1,13 @@
+from ast import Num
 from urllib import robotparser
 from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import UserAdminCreationForm, RoomForm, UserAdminChangeForm
+from .forms import RoomForm, RegisterForm, UserUpdateForm
 from .models import Room, Booking
+import datetime
 
 User = get_user_model()
 
@@ -38,11 +40,11 @@ def signinPage(request):
 
 def signupPage(request):
     page = 'signup'
-    form = UserAdminCreationForm()
+    form = RegisterForm()
     context = {'page': page, 'form': form}
 
     if request.method == 'POST':
-        form = UserAdminCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             # user.email = user.email.lower()
@@ -67,7 +69,14 @@ def dashboard(request):
 @login_required(redirect_field_name='/signin')
 def userProfile(request):
     user = User.objects.get(email=request.user)
-    form = UserAdminChangeForm(instance=user)
+    form = UserUpdateForm(instance=user)
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile is updated successfully!')
+        else:
+            form = UserUpdateForm(instance=user)
     context = {'form': form}
     return render(request, 'base/profile.html', context)
 
@@ -119,8 +128,10 @@ def bookRoom(request, pk):
     user_object = User.objects.get(email=request.user)
     room_object = Room.objects.get(id=pk)
     booking_object = Booking.objects.filter(user=user_object, room=room_object)
+    days = room_object.advance_booking
+    print(booking_object)
 
-    if room_object.booked == False:
+    if datetime.date.today() + datetime.timedelta(days = days) == room_object.date and room_object.booked == False:
         Room.objects.filter(id=pk).update(booked=True)
         Booking.objects.create(user=user_object, room=room_object)
         message = 'Room booked successfully!'
@@ -128,6 +139,10 @@ def bookRoom(request, pk):
     elif booking_object:
         message = 'You already booked the room!'
         status = True
+    elif not(datetime.date.today() + datetime.timedelta(days = days) == room_object.date and (room_object.booked == False)):
+        formattedMessage = 'Booking should be done before {days} days in advance!'.format(days=days)
+        message = formattedMessage
+        status = False
     else:
         message = 'Room was already booked!'
         status = False

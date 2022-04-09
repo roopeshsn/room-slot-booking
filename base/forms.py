@@ -12,12 +12,28 @@ class RegisterForm(forms.ModelForm):
 
     """
 
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Set Password',
+        'class': 'form-control',
+    }))
+    password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={
+        'placeholder': 'Confirm Password',
+        'class': 'form-control',
+    }))
 
     class Meta:
         model = User
-        fields = ['email']
+        fields = ['name' ,'email']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': "form-control", 
+                'placeholder': 'Your Name'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': "form-control", 
+                'placeholder': 'Your Email'
+            })
+        }
 
     def clean_email(self):
         '''
@@ -40,6 +56,14 @@ class RegisterForm(forms.ModelForm):
             self.add_error("password_2", "Your passwords must match")
         return cleaned_data
 
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+
 
 class UserAdminCreationForm(forms.ModelForm):
     """
@@ -57,8 +81,12 @@ class UserAdminCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['email']
+        fields = ['name', 'email']
         widgets = {
+            'name': forms.TextInput(attrs={
+                'class': "form-control", 
+                'placeholder': 'Your Name'
+            }),
             'email': forms.EmailInput(attrs={
                 'class': "form-control", 
                 'placeholder': 'Your Email'
@@ -93,7 +121,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['email']
+        fields = ['name', 'email']
         # widgets = {
         #     'email': forms.EmailInput(attrs={
         #         'class': "form-control", 
@@ -106,6 +134,20 @@ class UserAdminChangeForm(forms.ModelForm):
     #     # This is done here, rather than on the field, because the
     #     # field does not have access to the initial value
     #     return self.initial["password"]
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['name', 'email']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': "form-control", 
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': "form-control",
+            })
+        }
 
 
 class RoomForm(forms.ModelForm):
@@ -123,3 +165,6 @@ class RoomForm(forms.ModelForm):
     def clean(self):
         cleaned_data = self.cleaned_data
         return cleaned_data
+
+
+

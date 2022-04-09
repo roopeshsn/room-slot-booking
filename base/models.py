@@ -3,9 +3,10 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from django.utils import timezone
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, name=None):
         """
         Creates and saves a User with the given email and password.
         """
@@ -14,30 +15,33 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
+            name=name
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_manageruser(self, email, password):
+    def create_manageruser(self, name, email, password):
         """
         Creates and saves a staff user with the given email and password.
         """
         user = self.create_user(
             email,
+            name=name,
             password=password,
         )
         user.staff = True
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, name, email, password):
         """
         Creates and saves a superuser with the given email and password.
         """
         user = self.create_user(
             email,
+            name=name,
             password=password,
         )
         user.staff = True
@@ -51,6 +55,7 @@ class User(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
+    name = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser
@@ -58,11 +63,11 @@ class User(AbstractBaseUser):
     # notice the absence of a "Password field", that is built in.
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [] # Email & Password are required by default.
+    REQUIRED_FIELDS = ['name'] # Email & Password are required by default.
 
     def get_full_name(self):
         # The user is identified by their email address
-        return self.email
+        return self.name
 
     def get_short_name(self):
         # The user is identified by their email address
@@ -119,6 +124,7 @@ class Room(models.Model):
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    date_booked = models.DateTimeField(default=timezone.now)
     
     # def __str__(self):
     #     return f'{self.user} has booked {self.room} from {self.room.defined_check_in_time} to {self.room.defined_check_out_time} on {self.room.date}'
