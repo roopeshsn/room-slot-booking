@@ -90,7 +90,7 @@ def addRooms(request):
             form.save()
             return redirect('dashboard')
 
-    return render(request, 'base/manage_rooms.html', {'form': form, 'user': current_user})
+    return render(request, 'base/add_rooms.html', {'form': form, 'user': current_user})
 
 @login_required(redirect_field_name='/signin')
 def viewRooms(request):

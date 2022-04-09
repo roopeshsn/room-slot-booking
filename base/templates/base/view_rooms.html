@@ -3,13 +3,8 @@
     margin-bottom: 1rem;
   }
 
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-
-  .room-wrapper {
-    max-width: 400px;
+  .total-rooms {
+    margin-bottom: 1rem;
   }
 
   .room-wrapper {
@@ -45,7 +40,9 @@
     <p class="info">No rooms found!</p>
   </div>
   {% else %}
-  <p>Total Rooms - {{total_rooms}}</p>
+  <div class="total-rooms">
+    <h3>Total Rooms - {{total_rooms}}</h3>
+  </div>
   {% for room in rooms %}
   <div class="room-wrapper">
     <div class="room-header">

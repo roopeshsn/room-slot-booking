@@ -25,16 +25,17 @@ body {
 
 h1 {
   font-size: 1.625rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 h2 {
   font-size: 1.375rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 h2 {
   font-size: 1.25rem;
+  font-weight: 500;
 }
 
 p {
@@ -102,27 +103,27 @@ nav {
   }
 
   h1 {
-    font-size: 2.2em;
+    font-size: 2rem;
     font-weight: 600;
   }
 
   h2 {
-    font-size: 2em;
+    font-size: 1.5rem;
     font-weight: 600;
   }
 
   h3 {
-    font-size: 1.8em;
+    font-size: 1.375rem;
     font-weight: 600;
   }
 
   h4 {
-    font-size: 1.6em;
+    font-size: 1.25rem;
     font-weight: 600;
   }
 
   h5 {
-    font-size: 1.4em;
+    font-size: 1.125rem;
     font-weight: 600;
   }
 

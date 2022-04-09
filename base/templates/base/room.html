@@ -1,8 +1,4 @@
 <style>
-  p {
-    font-size: 1.25rem;
-  }
-
   .btn-wrapper {
     margin-top: 1rem;
   }
@@ -12,7 +8,12 @@
 {% extends 'layout.html' %} 
 {% block content %}
 <div>
-  <p>Are you sure, you want to book <b>{{room.name}}?</b></p>
+  <p>
+    Are you sure you want to book <span class="bold">{{room.name}}</span> on
+    <span class="bold">{{room.date}}</span> from
+    <span class="bold">{{room.defined_check_in_time}}</span> to
+    <span class="bold">{{room.defined_check_out_time}}</span> ?
+  </p>
   <div class="btn-wrapper">
     <a class="btn btn-primary btn-md" href="{% url 'book-room' room.id %}"
       >Confirm Booking</a

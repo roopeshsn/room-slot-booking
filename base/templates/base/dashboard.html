@@ -1,16 +1,11 @@
-<!-- prettier-ignore -->
 <style>
   h1 {
     margin-bottom: 1rem;
   }
 
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-
-  .room-wrapper {
-    margin-top: 1rem;
+  .available {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
   }
 
   .room-wrapper {
@@ -30,11 +25,8 @@
     justify-content: space-between;
     margin-top: 0.5rem;
   }
-
-  .time-slot{
-    font-weight: bold;
-  }
 </style>
+<!-- prettier-ignore -->
 {% extends 'layout.html' %} {% block content %}
 <h1>Dashboard page</h1>
 <a class="btn btn-lg btn-secondary" href="{% url 'user-bookings' %}"
@@ -43,26 +35,29 @@
 <div class="rooms-wrapper">
   {% if not rooms %}
   <p>No rooms are there to book!</p>
-  {% else %} {% for room in rooms %}
+  {% else %}
+  <h2 class="available">Available Rooms</h2>
+  {% for room in rooms %}
   <div class="room-wrapper">
     <div class="room-header">
-      <span><h2>{{room.name}}</h2></span>
-      <span>{{room.date}}</span>
+      <span><h3>{{room.name}}</h3></span>
+      <span class="bold">{{room.date}}</span>
     </div>
     <div class="room-body">
       <div>
-        <span class="time-slot">Time slot: </span>
+        <span class="bold">Time slot: </span>
         <span>{{room.defined_check_in_time}}</span>
         <span>-</span>
         <span>{{room.defined_check_out_time}}</span>
       </div>
       <div>
         <a class="btn btn-md btn-primary" href="{% url 'room' room.id %}"
-          >Book Room</a
+          >Book</a
         >
       </div>
     </div>
   </div>
+  <hr />
   {% endfor %} {% endif %}
 </div>
 {% endblock content %}
