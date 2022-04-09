@@ -114,9 +114,9 @@ class RoomForm(forms.ModelForm):
         fields = ('name', 'date', 'defined_check_in_time', 'defined_check_out_time')
         widgets = {
             'name': forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Room Name'}),
-            'date': forms.DateInput(attrs={'class': "form-control", 'placeholder': 'Year-Month-Date'}),
-            'defined_check_in_time': forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Start Time'}),
-            'defined_check_out_time': forms.TextInput(attrs={'class': "form-control", 'placeholder': 'End Time'}),
+            'date': forms.DateInput(attrs={'class': "form-control", 'type': "date"}),
+            'defined_check_in_time': forms.TimeInput(attrs={'class': "form-control", 'type': "time"}),
+            'defined_check_out_time': forms.TimeInput(attrs={'class': "form-control", 'type': "time"}),
         }
 
     def clean(self):

@@ -96,8 +96,8 @@ class User(AbstractBaseUser):
 class Room(models.Model):
     name = models.CharField(max_length=30)
     date =  models.DateField()
-    defined_check_in_time =  models.IntegerField()
-    defined_check_out_time = models.IntegerField()
+    defined_check_in_time =  models.TimeField()
+    defined_check_out_time = models.TimeField()
     booked = models.BooleanField(default = False)
 
     USERNAME_FIELD = 'name'

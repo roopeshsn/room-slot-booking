@@ -4,7 +4,7 @@
   }
 
   form {
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 
   input[type="text"],
@@ -29,6 +29,25 @@
 {% block content %}
 <div class="update-wrapper">
   <h1>User Profile</h1>
+  <div class="btn-wrapper">
+    {% if request.user.is_authenticated and request.user.staff %}
+    <a href="{% url 'dashboard' %}" class="btn btn-lg btn-primary">Dashboard</a>
+    <a href="{% url 'manage' %}" class="btn btn-lg btn-secondary ml-md"
+      >Manage</a
+    >
+    <div class="btn-second-row">
+      <a href="{% url 'signout' %}" class="btn btn-lg btn-tertiary">Signout</a>
+    </div>
+    {% elif request.user.is_authenticated and not request.user.staff %}
+    <a href="{% url 'dashboard' %}" class="btn btn-lg btn-primary">Dashboard</a>
+    <a href="{% url 'signout' %}" class="btn btn-lg btn-tertiary ml-md"
+      >Signout</a
+    >
+    {% else %}
+    <a href="{% url 'signup' %}" class="btn btn-lg btn-primary">Signup</a>
+    <a href="{% url 'signin' %}" class="btn btn-lg btn-tertiary">Signin</a>
+    {% endif %}
+  </div>
   <form action="" method="POST">
     <!-- prettier-ignore -->
     {% csrf_token %} 

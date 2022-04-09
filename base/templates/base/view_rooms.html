@@ -33,14 +33,6 @@
   .time-slot {
     font-weight: bold;
   }
-
-  .btn-delete-room {
-    text-decoration: none;
-    padding: 0.375rem 0.75rem;
-    border-radius: 0.375rem;
-    background-color: #ffbb33;
-    color: white;
-  }
 </style>
 <!-- prettier-ignore -->
 {% extends 'layout.html' %} 
@@ -49,8 +41,12 @@
 <div class="rooms-wrapper">
   <h1>View Your Rooms</h1>
   {% if not rooms %}
-  <p>No rooms found!</p>
-  {% else %} {% for room in rooms %}
+  <div class="info-wrapper">
+    <p class="info">No rooms found!</p>
+  </div>
+  {% else %}
+  <p>Total Rooms - {{total_rooms}}</p>
+  {% for room in rooms %}
   <div class="room-wrapper">
     <div class="room-header">
       <span><h2>{{room.name}}</h2></span>
@@ -64,7 +60,9 @@
         <span>{{room.defined_check_out_time}}</span>
       </div>
       <div>
-        <a class="btn-delete-room" href="{% url 'delete-room' room.id %}"
+        <a
+          class="btn btn-secondary btn-md"
+          href="{% url 'delete-room' room.id %}"
           >Delete Room</a
         >
       </div>

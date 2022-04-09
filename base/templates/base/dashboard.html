@@ -10,7 +10,7 @@
   }
 
   .room-wrapper {
-    max-width: 400px;
+    margin-top: 1rem;
   }
 
   .room-wrapper {
@@ -34,19 +34,13 @@
   .time-slot{
     font-weight: bold;
   }
-
-  .btn-book-room {
-    text-decoration: none;
-    padding: 0.375rem 0.75rem;
-    border-radius: 0.375rem;
-    background-color: green;
-    color: white;
-  }
 </style>
 {% extends 'layout.html' %} {% block content %}
 <h1>Dashboard page</h1>
+<a class="btn btn-lg btn-secondary" href="{% url 'user-bookings' %}"
+  >View your bookings</a
+>
 <div class="rooms-wrapper">
-  <a href="{% url 'user-bookings' %}">View your bookings</a>
   {% if not rooms %}
   <p>No rooms are there to book!</p>
   {% else %} {% for room in rooms %}
@@ -63,11 +57,12 @@
         <span>{{room.defined_check_out_time}}</span>
       </div>
       <div>
-        <a class="btn-book-room" href="{% url 'room' room.id %}">Book Room</a>
+        <a class="btn btn-md btn-primary" href="{% url 'room' room.id %}"
+          >Book Room</a
+        >
       </div>
     </div>
   </div>
-  <hr />
   {% endfor %} {% endif %}
 </div>
 {% endblock content %}

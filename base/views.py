@@ -95,7 +95,8 @@ def addRooms(request):
 @login_required(redirect_field_name='/signin')
 def viewRooms(request):
     rooms = Room.objects.all()
-    context = {'rooms': rooms}
+    total_rooms = len(rooms)
+    context = {'rooms': rooms, 'total_rooms': total_rooms}
     return render(request, 'base/view_rooms.html', context)
 
 @login_required(redirect_field_name='/signin')

@@ -8,17 +8,24 @@
     Framework. This appication is built for FOSSEE 2022. Signup to Get started
     or Signin to continue.
   </p>
-  <div class="starter">
+
+  <div class="btn-wrapper">
     {% if request.user.is_authenticated and request.user.staff %}
-    <a href="{% url 'dashboard' %}" class="btn-dashboard">Dashboard</a>
-    <a href="{% url 'manage' %}" class="btn-manage">Manage</a>
-    <a href="{% url 'signout' %}" class="btn-signout">Signout</a>
+    <a href="{% url 'dashboard' %}" class="btn btn-lg btn-primary">Dashboard</a>
+    <a href="{% url 'manage' %}" class="btn btn-lg btn-secondary ml-md"
+      >Manage</a
+    >
+    <div class="btn-second-row">
+      <a href="{% url 'signout' %}" class="btn btn-lg btn-tertiary">Signout</a>
+    </div>
     {% elif request.user.is_authenticated and not request.user.staff %}
-    <a href="{% url 'dashboard' %}" class="btn-dashboard">Dashboard</a>
-    <a href="{% url 'signout' %}" class="btn-signout">Signout</a>
+    <a href="{% url 'dashboard' %}" class="btn btn-lg btn-primary">Dashboard</a>
+    <a href="{% url 'signout' %}" class="btn btn-lg btn-tertiary ml-md"
+      >Signout</a
+    >
     {% else %}
-    <a href="{% url 'signin' %}" class="btn-signin">Signin</a>
-    <a href="{% url 'signup' %}" class="btn-signup">Signup</a>
+    <a href="{% url 'signup' %}" class="btn btn-lg btn-primary">Signup</a>
+    <a href="{% url 'signin' %}" class="btn btn-lg btn-tertiary">Signin</a>
     {% endif %}
   </div>
 </div>

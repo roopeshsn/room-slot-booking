@@ -24,8 +24,17 @@ body {
 }
 
 h1 {
-  font-size: 1.75rem;
+  font-size: 1.625rem;
   font-weight: 600;
+}
+
+h2 {
+  font-size: 1.375rem;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.25rem;
 }
 
 p {
@@ -36,12 +45,16 @@ ul {
   list-style: none;
 }
 
-#wrapper {
+#main-wrapper {
   text-align: left;
   margin-left: auto;
   margin-right: auto;
   padding: 0 1rem;
   background-color: #ffffff;
+}
+
+#wrapper {
+  max-width: 640px;
 }
 
 nav {
@@ -67,56 +80,25 @@ nav {
   color: #2d3748;
 }
 
-.home-wrapper {
+/* .home-wrapper {
   max-width: 640px;
-}
+} */
 
 .home-des {
   margin-top: 0.5rem;
 }
 
-.starter {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-.starter a {
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-}
-
-.btn-signout {
-  background-color: gainsboro;
+/* .info-message {
+  padding: 0.5rem;
+  margin: 3rem 0;
+  max-width: 400px;
+  background-color: skyblue;
   color: black;
-  margin-left: 1rem;
-}
+} */
 
-.btn-signin {
-  background-color: gainsboro;
-  color: black;
-}
-
-.btn-signup {
-  background-color: green;
-  color: white;
-  margin-left: 1rem;
-}
-
-.btn-dashboard {
-  background-color: green;
-  color: white;
-}
-
-.btn-manage {
-  background-color: #ffbb33;
-  color: white;
-  margin-left: 1rem;
-}
-
-@media only screen and (min-width: 1050px) {
-  #wrapper {
-    width: 980px;
+@media only screen and (min-width: 640px) {
+  #main-wrapper {
+    max-width: 640px;
   }
 
   h1 {
@@ -124,23 +106,28 @@ nav {
     font-weight: 600;
   }
 
-  /* h2 {
+  h2 {
     font-size: 2em;
+    font-weight: 600;
   }
 
   h3 {
     font-size: 1.8em;
+    font-weight: 600;
   }
 
   h4 {
     font-size: 1.6em;
+    font-weight: 600;
   }
 
   h5 {
     font-size: 1.4em;
-  } */
+    font-weight: 600;
+  }
 
   .nav-brand {
     font-size: 1.5rem;
+    font-weight: 600;
   }
 }

@@ -13,17 +13,78 @@
         max-width: 400px;
       }
 
+      .info-wrapper {
+        margin-top: 1rem;
+      }
+
       .info {
         background-color: #add8e6;
         padding: 0.75rem 0.5rem;
         border-radius: 0.5rem;
         margin-bottom: 0.5rem;
         color: #0047ab;
+        font-weight: 600;
+      }
+
+      .btn {
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .btn-md {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.375rem;
+      }
+
+      .btn-lg {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.375rem;
+      }
+
+      .btn-primary {
+        background-color: green;
+        color: white;
+      }
+
+      .btn-secondary{
+        background-color: #ffbb33;
+        color: white;
+      }
+
+      .btn-tertiary {
+        background-color: gainsboro;
+        color: black;
+      }
+
+      .ml-md{
+        margin-left: 0.5rem;
+      }
+
+      .ml-lg{
+        margin-left: 1rem;
+      }
+
+      .btn-wrapper {
+        margin-top: 1rem;
+      }
+
+      .btn-second-row {
+        margin-top: 1rem;
+      }
+
+      @media only screen and (min-width: 1050px) {
+        .btn-second-row {
+          display: inline;
+        }
+
+        .btn-tertiary {
+          margin-left: 0.5rem;
+        }
       }
     </style>
   </head>
   <body>
-    <div id="wrapper">
+    <div id="main-wrapper">
       {% include 'navbar.html' %} 
       {% if messages %}
       <ul class="messages">
@@ -32,7 +93,9 @@
         {% endfor %}
       </ul>
       {% endif %}
-      {% block content %} {% endblock %}
+      <div id="wrapper">
+        {% block content %} {% endblock %}
+      </div>
     </div>
   </body>
 </html>
