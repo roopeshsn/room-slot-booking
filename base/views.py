@@ -1,19 +1,20 @@
-from ast import Num
-from urllib import robotparser
+from functools import total_ordering
 from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import RoomForm, RegisterForm, UserUpdateForm
-from .models import Room, Booking
-import datetime
+from .forms import RoomForm, TimeSlotForm, RegisterForm, UserUpdateForm
+from .models import Room, Booking, TimeSlot
+from datetime import datetime, date, timedelta
 
 User = get_user_model()
 
+# home page view
 def home(request):
     return render(request, 'base/home.html')
 
+# signin page view
 def signinPage(request):
     page = 'signin'
     if request.method == 'POST':
@@ -38,6 +39,7 @@ def signinPage(request):
     context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
+# signup page view
 def signupPage(request):
     page = 'signup'
     form = RegisterForm()
@@ -56,16 +58,41 @@ def signupPage(request):
 
     return render(request, 'base/login_register.html', context)
 
+# signout page view
 def signoutUser(request):
     logout(request)
     return redirect('signin')
 
+# For Users
+# dashboard page view
 @login_required(redirect_field_name='/signin')
 def dashboard(request):
-    rooms = Room.objects.all()
-    context = {'rooms': rooms}
+    today = datetime.now()
+    default_date = today.strftime("%Y-%m-%d")
+    if request.method == 'POST':
+        picked_date = str(request.POST['date'])
+        f_date = picked_date.replace('-', '')
+        return redirect('available-rooms', f_date)
+    context = {'today': default_date}
     return render(request, 'base/dashboard.html', context)
 
+# available rooms page view
+@login_required(redirect_field_name='/signin')
+def availableRooms(request, date):
+    f_date = datetime.strptime(date, "%Y%m%d").date().strftime("%Y-%m-%d")
+    rooms = Room.objects.all()
+    context = {'rooms': rooms, 'date': date}
+    return render(request, 'base/available_rooms.html', context)
+
+# available timeslots page view
+@login_required(redirect_field_name='/signin')
+def availableTimeSlots(request, date, pk):
+    room = Room.objects.get(id=pk)
+    time_slots = TimeSlot.objects.filter(room=room)
+    context = {'time_slots': time_slots, 'room': room, 'date': date}
+    return render(request, 'base/available_timeslots.html', context)
+
+# user profile page view
 @login_required(redirect_field_name='/signin')
 def userProfile(request):
     user = User.objects.get(email=request.user)
@@ -80,10 +107,68 @@ def userProfile(request):
     context = {'form': form}
     return render(request, 'base/profile.html', context)
 
+# room page view
+@login_required(redirect_field_name='/signin')
+def room(request, pk):
+    room_object = Room.objects.get(id=pk)
+    context = {'room': room_object}
+    return render(request, 'base/room.html', context)
+
+# book room page view
+# booking logic
+@login_required(redirect_field_name='/signin')
+def bookRoom(request, p_date, pk):
+    f_date = datetime.strptime(p_date, "%Y%m%d").date().strftime("%Y-%m-%d")
+    user = User.objects.get(email=request.user)
+    time_slot = TimeSlot.objects.get(id=pk)
+    days = time_slot.room.advance_booking
+
+    picked_date_obj = datetime.strptime(f_date, "%Y-%m-%d")
+    # calc_date_obj = date.today() + timedelta(days=days)
+    today_date_obj = date.today()
+    
+    try:
+        booking_obj = Booking.objects.filter(user=user, time_slot=time_slot)
+    except:
+        print("Queryset doesnot exists")
+
+    if booking_obj.exists():
+        message = 'ALREADY YOU'
+    elif time_slot.booked == True:
+        message = 'ALREADY'
+    elif (picked_date_obj.day - today_date_obj.day >= days) and (time_slot.booked == False):
+        TimeSlot.objects.filter(id=pk).update(booked=True)
+        Booking.objects.create(user=user, time_slot=time_slot, date=f_date)
+        message = 'SUCCESS'
+    elif not((picked_date_obj.day - today_date_obj.day >= days) and (time_slot.booked == False)):
+        message = 'FAILURE'
+    elif not(picked_date_obj.day >= today_date_obj.day):
+        message = 'ERROR'
+    else:
+        message = 'ERROR'
+
+    context = {'user': user, 'time_slot': time_slot, 'message': message, 'days': days}
+    return render(request, 'base/book_room.html', context)
+
+# cancel booking page view
+@login_required(redirect_field_name='/signin')
+def cancelRoom(request, ts, pk):
+    booking = Booking.objects.filter(id=pk)
+    if request.method == 'POST':
+        booking.delete()
+        TimeSlot.objects.filter(id=ts).update(booked=False)
+        return redirect('user-bookings')
+    context = {'booking': booking}
+    return render(request, 'base/cancel_room.html', context)
+
+# For Room Manager
+# manage page view
 @login_required(redirect_field_name='/signin')
 def manage(request):
     return render(request, 'base/manage.html')
 
+# Rooms
+# add rooms page view
 @login_required(redirect_field_name='/signin')
 def addRooms(request):
     form = RoomForm()
@@ -91,16 +176,12 @@ def addRooms(request):
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
-            # name = form.cleaned_data.get('name')
-            # date = form.cleaned_data.get('date')
-            # defined_check_in_time = form.cleaned_data.get('defined_check_in_time')
-            # defined_check_out_time = form.cleaned_data.get('defined_check_out_time')
-            # room_object = Room(name=name, date=date, defined_check_in_time=defined_check_in_time, defined_check_out_time=defined_check_out_time)
             form.save()
-            return redirect('dashboard')
+            return redirect('view-rooms')
 
     return render(request, 'base/add_rooms.html', {'form': form, 'user': current_user})
 
+# view rooms page view
 @login_required(redirect_field_name='/signin')
 def viewRooms(request):
     rooms = Room.objects.all()
@@ -108,60 +189,7 @@ def viewRooms(request):
     context = {'rooms': rooms, 'total_rooms': total_rooms}
     return render(request, 'base/view_rooms.html', context)
 
-@login_required(redirect_field_name='/signin')
-def viewBookings(request):
-    all_bookings = Booking.objects.all()
-    print(all_bookings)
-    context = {'bookings': all_bookings}
-    return render(request, 'base/bookings.html', context)
-
-@login_required(redirect_field_name='/signin')
-def room(request, pk):
-    room_object = Room.objects.get(id=pk)
-    context = {'room': room_object}
-    return render(request, 'base/room.html', context)
-
-@login_required(redirect_field_name='/signin')
-def bookRoom(request, pk):
-    status = False
-    message = 'Room was already booked!'
-    user_object = User.objects.get(email=request.user)
-    room_object = Room.objects.get(id=pk)
-    booking_object = Booking.objects.filter(user=user_object, room=room_object)
-    days = room_object.advance_booking
-    print(booking_object)
-
-    if datetime.date.today() + datetime.timedelta(days = days) == room_object.date and room_object.booked == False:
-        Room.objects.filter(id=pk).update(booked=True)
-        Booking.objects.create(user=user_object, room=room_object)
-        message = 'Room booked successfully!'
-        status = True
-    elif booking_object:
-        message = 'You already booked the room!'
-        status = True
-    elif not(datetime.date.today() + datetime.timedelta(days = days) == room_object.date and (room_object.booked == False)):
-        formattedMessage = 'Booking should be done before {days} days in advance!'.format(days=days)
-        message = formattedMessage
-        status = False
-    else:
-        message = 'Room was already booked!'
-        status = False
-
-    context = {'user': user_object, 'room': room_object, 'status': status, 'message': message}
-    return render(request, 'base/book_room.html', context)
-
-@login_required(redirect_field_name='/signin')
-def cancelRoom(request, pk):
-    user_object = User.objects.get(email=request.user)
-    room_object = Room.objects.get(id=pk)
-    booking_object = Booking.objects.filter(user=user_object, room=room_object)
-    if request.method == 'POST':
-        booking_object.delete()
-        Room.objects.filter(id=pk).update(booked=False)
-        return redirect('dashboard')
-    context = {'booking': booking_object}
-    return render(request, 'base/cancel_room.html', context)
-
+# update room page view
 @login_required(redirect_field_name='/signin')
 def updateRoom(request, pk):
     room_object = Room.objects.get(id=pk)
@@ -174,19 +202,69 @@ def updateRoom(request, pk):
     context = {'form': form,'room': room_object}
     return render(request, 'base/update_room.html', context)
 
+# delete room page view
 @login_required(redirect_field_name='/signin')
 def deleteRoom(request, pk):
-    room_object = Room.objects.get(id=pk)
-    context = {'room': room_object}
+    try:
+        room = Room.objects.get(id=pk)
+        context = {'room': room}
+    except:
+        context = {'error': 'An error occured!'}
+
     if request.method == 'POST':
-        room_object.delete()
+        room.delete()
         return redirect('view-rooms')
     return render(request, 'base/delete.html', context)
 
+# Timeslots
+# add timeslots for a room page view
+@login_required(redirect_field_name='/signin')
+def addTimeSlots(request, pk):
+    room = Room.objects.get(id=pk)
+    context = {'room': room}
+    if request.method == 'POST':
+        check_in_time = request.POST['check_in_time']
+        check_out_time = request.POST['check_out_time']
+        TimeSlot.objects.create(check_in_time=check_in_time, check_out_time=check_out_time, room=room)
+        return redirect('view-timeslots', room.id)
+    return render(request, 'base/add_timeslots.html', context)
+
+# view timeslots page view
+@login_required(redirect_field_name='/signin')
+def viewTimeSlots(request, pk):
+    room = Room.objects.get(id=pk)
+    time_slots = TimeSlot.objects.filter(room=room)
+    print(time_slots)
+    context = {'time_slots': time_slots, 'room': room}
+    return render(request, 'base/view_timeslots.html', context)
+
+# delete timeslot page view
+@login_required(redirect_field_name='/signin')
+def deleteTimeSlot(request, pk):
+    try:
+        time_slot =TimeSlot.objects.get(id=pk)
+        room = time_slot.room
+        context = {'time_slot': time_slot}
+    except:
+        context = {'error': 'An error occured!'}
+    if request.method == 'POST':
+        time_slot.delete()
+        return redirect('view-timeslots', room.id)
+    return render(request, 'base/delete_timeslot.html', context)
+
+# Bookings
+# view bookings page view
+@login_required(redirect_field_name='/signin')
+def viewBookings(request):
+    all_bookings = Booking.objects.all()
+    context = {'bookings': all_bookings}
+    return render(request, 'base/bookings.html', context)
+
+# view user bookings page view
 @login_required(redirect_field_name='/signin')
 def userBookings(request):
-    user_object = User.objects.get(email=request.user.email)
-    booking_object = Booking.objects.filter(user=user_object)
-    context = {'user': user_object, 'bookings': booking_object}
+    user = User.objects.get(email=request.user)
+    bookings = Booking.objects.filter(user=user)
+    context = {'user': user, 'bookings': bookings}
 
     return render(request, 'base/user_bookings.html', context)

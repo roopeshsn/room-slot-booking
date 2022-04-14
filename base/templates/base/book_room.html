@@ -8,19 +8,35 @@
 {% extends 'layout.html' %} 
 {% block content %}
 <div>
-  <h1>Status - {{room.name}}</h1>
-  {% if status and message == "Room booked successfully!" %}
+  <h1>Status for {{time_slot.room.name}}</h1>
+  {% if message == "SUCCESS" %}
   <div class="info-wrapper">
-    <p class="success">{{message}}</p>
+    <p class="success">{{time_slot.room}} successfully booked!</p>
   </div>
   <!-- prettier-ignore -->
-  {% elif status and message == "You already booked the room!" %}
+  {% elif message == "ALREADY YOU" %}
   <div class="info-wrapper">
-    <p class="info">{{message}}</p>
+    <p class="info">
+      You already booked the room for the timeslot from
+      {{time_slot.check_in_time}} to {{time_slot.check_out_time}}!
+    </p>
+  </div>
+  {% elif message == "ALREADY" %}
+  <div class="info-wrapper">
+    <p class="info">
+      Room was already booked by someone else for the timeslot! Choose another
+      room or timeslot.
+    </p>
+  </div>
+  {% elif message == "FAILURE" %}
+  <div class="info-wrapper">
+    <p class="info">Booking should be done before {{days}} days in advance!</p>
   </div>
   {% else %}
   <div class="info-wrapper">
-    <p class="info">{{message}}</p>
+    <p class="info">
+      An error occured! Cannot able to book the room for the timeslot.
+    </p>
   </div>
   {% endif %}
   <div class="btn-wrapper">

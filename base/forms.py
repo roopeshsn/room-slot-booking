@@ -2,7 +2,7 @@ from email.policy import default
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from .models import Room
+from .models import Room, TimeSlot, Booking
 
 User = get_user_model()
 
@@ -153,18 +153,39 @@ class UserUpdateForm(forms.ModelForm):
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
-        fields = ('name', 'date', 'advance_booking', 'defined_check_in_time', 'defined_check_out_time')
+        fields = ('name', 'advance_booking')
         widgets = {
             'name': forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Room Name'}),
-            'date': forms.DateInput(attrs={'class': "form-control", 'type': "date"}),
-            'advance_booking': forms.NumberInput(attrs={'class': "form-control", 'placeholder': 'Advance Booking (default = 3 days)', 'type': "number"}),
-            'defined_check_in_time': forms.TimeInput(attrs={'class': "form-control", 'type': "time"}),
-            'defined_check_out_time': forms.TimeInput(attrs={'class': "form-control", 'type': "time"}),
+            'advance_booking': forms.NumberInput(attrs={'class': "form-control", 'placeholder': 'Advance booking days', 'type': "number"}),
         }
 
     def clean(self):
         cleaned_data = self.cleaned_data
         return cleaned_data
 
+class TimeSlotForm(forms.ModelForm):
+    class Meta:
+        model = TimeSlot
+        fields = ('check_in_time', 'check_out_time')
+        widgets = {
+            'check_in_time': forms.TimeInput(attrs={'class': "form-control", 'placeholder': 'CheckIn Time'}),
+            'check_out_time': forms.TimeInput(attrs={'class': "form-control", 'placeholder': 'CheckOut Time'}),
+        }
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        return cleaned_data
+
+# class BookingForm(forms.ModelForm):
+#     class Meta:
+#         model = Booking
+#         fields = ('date')
+#         widgets = {
+#             'date': forms.DateInput(attrs={'class': "form-control"})
+#         }
+
+#     def clean(self):
+#         cleaned_data = self.cleaned_data
+#         return cleaned_data
 
 

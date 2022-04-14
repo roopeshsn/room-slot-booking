@@ -1,0 +1,68 @@
+<style>
+  .available {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid gainsboro;
+  }
+
+  .room-wrapper {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid gainsboro;
+  }
+
+  .room-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .room-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+
+  .advance {
+    color: gray;
+    font-size: 0.875rem;
+  }
+</style>
+
+<!-- prettier-ignore -->
+{% extends 'layout.html' %} {% block content %}
+<h1 class="available">Available Rooms</h1>
+<div class="rooms-wrapper">
+  {% if not rooms %}
+  <div class="info-wrapper">
+    <p class="info">No rooms are there to book!</p>
+  </div>
+  {% else %} {% for room in rooms %}
+  <div class="room-wrapper">
+    <div class="room-header">
+      <span><h3>{{room.name}}</h3></span>
+      <span class="bold">{{room.date}}</span>
+    </div>
+    <div class="room-body">
+      <div>
+        <div>
+          <p class="advance">
+            {{room.advance_booking}} days to book in advance
+          </p>
+        </div>
+      </div>
+      <div>
+        <a
+          class="btn btn-md btn-primary"
+          href="{% url 'available-timeslots' date room.id %}"
+          >Timeslots</a
+        >
+      </div>
+    </div>
+  </div>
+  {% endfor %} {% endif %}
+</div>
+
+{% endblock content %}

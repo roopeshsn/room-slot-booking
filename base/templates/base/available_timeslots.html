@@ -1,0 +1,66 @@
+<style>
+  .page-title {
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid gainsboro;
+    margin-bottom: 1rem;
+  }
+
+  .timeslot-header {
+    font-size: 1.25rem;
+  }
+
+  .timeslot-wrapper {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid gainsboro;
+  }
+
+  .timeslot-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+
+  .advance {
+    color: gray;
+    font-size: 0.875rem;
+  }
+</style>
+
+<!-- prettier-ignore -->
+{% extends 'layout.html' %} {% block content %}
+<h1 class="page-title">Available Timeslots</h1>
+<div class="timeslots-wrapper">
+  {% if not time_slots %}
+  <div class="info-wrapper">
+    <p class="info">No timeslots are there to book!</p>
+  </div>
+  {% else %} {% for time_slot in time_slots %}
+  <div class="timeslot-wrapper">
+    <div class="timeslot-header">
+      <span class="bold">{{time_slot.check_in_time}}</span>
+      <span>to</span>
+      <span class="bold">{{time_slot.check_out_time}}</span>
+    </div>
+    <div class="timeslot-body">
+      <div>
+        <div>
+          <p class="advance">
+            Are you sure you want to book {{room.name}} on date from
+            {{time_slot.check_in_time}} to {{time_slot.check_out_time}}?
+          </p>
+        </div>
+      </div>
+      <div>
+        <a
+          class="btn btn-md btn-primary"
+          href="{% url 'book-room' date time_slot.id %}"
+          >Book</a
+        >
+      </div>
+    </div>
+  </div>
+  {% endfor %} {% endif %}
+</div>
+{% endblock content %}

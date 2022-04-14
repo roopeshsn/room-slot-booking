@@ -3,78 +3,37 @@
     margin-bottom: 1rem;
   }
 
-  .available {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid gainsboro;
+  form {
+    max-width: 400px;
+    margin-top: 1.5rem;
   }
 
-  .room-wrapper {
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid gainsboro;
+  input[type="date"] {
+    width: 100%;
+    padding: 0.75rem 0.5rem;
+    border: 2px solid gainsboro;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+    cursor: pointer;
   }
 
-  .room-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-
-  .room-body {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-  }
-
-  .advance {
-    color: gray;
-    font-size: 0.875rem;
+  input[type="submit"] {
+    background-color: green;
+    color: white;
   }
 </style>
+
 <!-- prettier-ignore -->
 {% extends 'layout.html' %} {% block content %}
 <h1>Dashboard page</h1>
 <a class="btn btn-lg btn-secondary" href="{% url 'user-bookings' %}"
   >View your bookings</a
 >
-<div class="rooms-wrapper">
-  {% if not rooms %}
-  <div class="info-wrapper">
-    <p class="info">No rooms are there to book!</p>
-  </div>
-  {% else %}
-  <h2 class="available">Available Rooms</h2>
-  {% for room in rooms %}
-  <div class="room-wrapper">
-    <div class="room-header">
-      <span><h3>{{room.name}}</h3></span>
-      <span class="bold">{{room.date}}</span>
-    </div>
-    <div class="room-body">
-      <div>
-        <div>
-          <span class="bold">Time slot: </span>
-          <span>{{room.defined_check_in_time}}</span>
-          <span>to</span>
-          <span>{{room.defined_check_out_time}}</span>
-        </div>
-        <div>
-          <p class="advance">
-            {{room.advance_booking}} days to book in advance
-          </p>
-        </div>
-      </div>
-      <div>
-        <a class="btn btn-md btn-primary" href="{% url 'room' room.id %}"
-          >Book</a
-        >
-      </div>
-    </div>
-  </div>
-  {% endfor %} {% endif %}
-</div>
+<form action="" method="POST">
+  {% csrf_token %}
+  <label>Pick a date to book a room</label>
+  <input id="datePicker" type="date" name="date" value="{{today}}" />
+  <input type="submit" value="Submit" />
+</form>
+
 {% endblock content %}

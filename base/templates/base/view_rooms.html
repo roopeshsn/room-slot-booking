@@ -3,7 +3,10 @@
     margin-bottom: 1rem;
   }
 
-  .total-rooms {
+  .view-rooms-sub {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid gainsboro;
@@ -23,15 +26,32 @@
   }
 
   .room-body {
+    margin-top: 0.5rem;
+  }
+
+  .room-btn-wrapper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 0.5rem;
     margin-top: 0.5rem;
+  }
+
+  .room-btn {
+    display: flex;
+    gap: 0.5rem;
   }
 
   .advance {
     color: gray;
     font-size: 0.875rem;
+  }
+
+  @media only screen and (min-width: 460px) {
+    .room-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 </style>
 <!-- prettier-ignore -->
@@ -45,35 +65,49 @@
     <p class="info">No rooms found!</p>
   </div>
   {% else %}
-  <div class="total-rooms">
-    <h3>Total Rooms - {{total_rooms}}</h3>
+  <div class="view-rooms-sub">
+    <div class="total-rooms">
+      <h3>Total Rooms - {{total_rooms}}</h3>
+    </div>
+    <div>
+      <a href="{% url 'add-rooms' %}" class="btn btn-lg btn-tertiary">Add</a>
+    </div>
   </div>
   {% for room in rooms %}
   <div class="room-wrapper">
     <div class="room-header">
       <span><h2>{{room.name}}</h2></span>
-      <span class="bold">{{room.date}}</span>
     </div>
     <div class="room-body">
       <div>
-        <div>
-          <span class="time-slot">Time slot: </span>
-          <span>{{room.defined_check_in_time}}</span>
-          <span>-</span>
-          <span>{{room.defined_check_out_time}}</span>
-        </div>
         <div>
           <p class="advance">
             {{room.advance_booking}} days to book in advance
           </p>
         </div>
       </div>
-      <div>
-        <a
-          class="btn btn-secondary btn-md"
-          href="{% url 'delete-room' room.id %}"
-          >Delete Room</a
-        >
+      <div class="room-btn-wrapper">
+        <div>
+          <a
+            class="btn btn-secondary btn-md"
+            href="{% url 'update-room' room.id %}"
+            >Edit</a
+          >
+        </div>
+        <div>
+          <a
+            class="btn btn-primary btn-md"
+            href="{% url 'view-timeslots' room.id %}"
+            >Timeslots</a
+          >
+        </div>
+        <div>
+          <a
+            class="btn btn-tertiary btn-md"
+            href="{% url 'delete-room' room.id %}"
+            >Delete</a
+          >
+        </div>
       </div>
     </div>
   </div>

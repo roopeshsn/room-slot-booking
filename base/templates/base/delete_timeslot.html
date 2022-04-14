@@ -8,30 +8,28 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    cursor: pointer;
-  }
-
-  input[type="submit"] {
-    cursor: pointer;
   }
 </style>
 
 <!-- prettier-ignore -->
 {% extends 'layout.html' %} 
 {% block content %}
-<h1>Cancel Room</h1>
+<h1>Delete Timeslot</h1>
+{% if error %}
+<div class="info-wrapper">
+  <p class="info">{{error}}</p>
+</div>
+{% else %}
 <form method="POST" action="">
-  {% csrf_token %} {% for b in booking %}
+  {% csrf_token %}
   <p class="confirm-message">
-    Are you sure you want to cancel <span class="bold">{{b.room.name}}</span> on
-    <span class="bold">{{b.date}}</span> from
-    <span class="bold">{{b.time_slot.check_in_time}}</span> to
-    <span class="bold">{{b.time_slot.check_out_time}}</span> ?
+    Are you sure you want to delete timeslot from
+    <span class="bold">{{time_slot.check_in_time}}</span> to
+    <span class="bold">{{time_slot.check_out_time}}</span>?
   </p>
-  {% endfor %}
   <div class="btn-wrapper">
     <a class="btn btn-customize" href="{{request.META.HTTP_REFERER}}">Cancel</a>
     <input type="submit" value="Confirm" />
   </div>
 </form>
-{% endblock content %}
+{% endif %} {% endblock content %}

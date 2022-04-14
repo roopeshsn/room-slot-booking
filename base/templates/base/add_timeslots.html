@@ -1,0 +1,45 @@
+<style>
+  form {
+    max-width: 400px;
+    margin-top: 1rem;
+  }
+
+  input[type="date"],
+  input[type="time"],
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    padding: 0.75rem 0.5rem;
+    border: 2px solid gainsboro;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+  }
+
+  input[type="submit"] {
+    width: 100%;
+    padding: 0.75rem 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<!-- prettier-ignore -->
+{% extends 'layout.html' %} 
+{% block content %} 
+{% if user.staff or user.admin %}
+<h1>Add Timeslots</h1>
+<form action="" method="POST">
+  <!-- prettier-ignore -->
+  {% csrf_token %}
+  <div class="form-control">
+    <label>CheckIn Time</label>
+    <input type="time" name="check_in_time" required />
+  </div>
+  <div class="form-control">
+    <label>CheckOut Time</label>
+    <input type="time" name="check_out_time" required />
+  </div>
+  <input type="submit" value="Submit" />
+</form>
+{% else %}
+<h2>Access Denied!</h2>
+{% endif %} {% endblock content %}

@@ -1,14 +1,29 @@
+<style>
+  .home-des {
+    margin: 0.5rem auto;
+  }
+
+  .home-des-1 {
+    margin-bottom: 0.5rem;
+  }
+</style>
+
 <!-- prettier-ignore -->
 {% extends 'layout.html' %}
 {% block content %}
 <div class="home-wrapper">
   <h1>Room Slot Booking</h1>
-  <p class="home-des">
-    This is an room slot booking application built using Django and Django Rest
-    Framework. This appication is built for FOSSEE 2022. Signup to Get started
-    or Signin to continue.
-  </p>
-
+  <div class="home-des">
+    <p class="home-des-1">
+      This is an room slot booking application built using Django and Django
+      Rest Framework. This appication is built for FOSSEE 2022. Signup to Get
+      started or Signin to continue.
+    </p>
+    <p>
+      This application is also available as an API. Go to
+      <a href="/api">/api</a>
+    </p>
+  </div>
   <div class="btn-wrapper">
     {% if request.user.is_authenticated and request.user.staff %}
     <a href="{% url 'dashboard' %}" class="btn btn-lg btn-primary">Dashboard</a>

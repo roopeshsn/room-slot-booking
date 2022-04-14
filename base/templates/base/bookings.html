@@ -31,7 +31,7 @@
       <tr>
         <th>Room</th>
         <th>Date</th>
-        <th>Booked Date</th>
+        <th>Name</th>
         <th>Email</th>
         <th>Checkin Time</th>
         <th>Checkout Time</th>
@@ -39,12 +39,12 @@
       {% for booking in bookings %}
 
       <tr>
-        <td>{{booking.room.name}}</td>
-        <td>{{booking.room.date}}</td>
-        <td>{{booking.date_booked}}</td>
+        <td>{{booking.time_slot.room.name}}</td>
+        <td>{{booking.date}}</td>
+        <td>{{booking.user.name}}</td>
         <td>{{booking.user.email}}</td>
-        <td>{{booking.room.defined_check_in_time}}</td>
-        <td>{{booking.room.defined_check_out_time}}</td>
+        <td>{{booking.time_slot.check_in_time}}</td>
+        <td>{{booking.time_slot.check_out_time}}</td>
       </tr>
 
       {% endfor%}

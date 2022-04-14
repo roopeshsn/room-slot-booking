@@ -15,17 +15,19 @@
 {% extends 'layout.html' %} 
 {% block content %}
 <h1>Delete Room</h1>
+{% if error %}
+<div class="info-wrapper">
+  <p class="info">{{error}}</p>
+</div>
+{% else %}
 <form method="POST" action="">
   {% csrf_token %}
   <p class="confirm-message">
-    Are you sure you want to cancel <span class="bold">{{room.name}}</span> on
-    <span class="bold">{{room.date}}</span> from
-    <span class="bold">{{room.defined_check_in_time}}</span> to
-    <span class="bold">{{room.defined_check_out_time}}</span> ?
+    Are you sure you want to delete <span class="bold">{{room.name}}</span>?
   </p>
   <div class="btn-wrapper">
     <a class="btn btn-customize" href="{{request.META.HTTP_REFERER}}">Cancel</a>
     <input type="submit" value="Confirm" />
   </div>
 </form>
-{% endblock content %}
+{% endif %} {% endblock content %}

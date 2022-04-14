@@ -1,0 +1,72 @@
+<style>
+  .view-timeslots-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid gainsboro;
+    margin-bottom: 1rem;
+  }
+
+  .timeslot-header {
+    font-size: 1.25rem;
+  }
+
+  .timeslot-wrapper {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid gainsboro;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .btn-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .advance {
+    color: gray;
+    font-size: 0.875rem;
+  }
+</style>
+
+<!-- prettier-ignore -->
+{% extends 'layout.html' %} {% block content %}
+<div class="view-timeslots-header">
+  <h1 class="page-title">View TimeSlots</h1>
+  <div class="btn-add-wrapper">
+    <a class="btn btn-lg btn-primary" href="{% url 'add-timeslots' room.id %}"
+      >Add</a
+    >
+  </div>
+</div>
+<div class="timeslots-wrapper">
+  {% if not time_slots %}
+  <div class="info-wrapper">
+    <p class="info">No timeslots added!</p>
+  </div>
+  {% else %} {% for time_slot in time_slots %}
+  <div class="timeslot-wrapper">
+    <div class="timeslot-header">
+      <span class="bold">{{time_slot.check_in_time}}</span>
+      <span>to</span>
+      <span class="bold">{{time_slot.check_out_time}}</span>
+    </div>
+
+    <div class="btn-wrapper">
+      <div>
+        <a
+          href="{% url 'delete-timeslot' time_slot.id %}"
+          class="btn btn-secondary btn-md"
+          >Delete</a
+        >
+      </div>
+    </div>
+  </div>
+  {% endfor %} {% endif %}
+</div>
+
+{% endblock content %}

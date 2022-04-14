@@ -1,4 +1,5 @@
 from operator import mod
+from xmlrpc.client import DateTime
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -100,31 +101,26 @@ class User(AbstractBaseUser):
 
 class Room(models.Model):
     name = models.CharField(max_length=30)
-    date =  models.DateField()
-    defined_check_in_time =  models.TimeField(max_length=4)
-    defined_check_out_time = models.TimeField(max_length=4)
-    advance_booking = models.IntegerField(default = 3)
-    booked = models.BooleanField(default = False)
+    advance_booking = models.IntegerField()
+    booked = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'name'
 
     class Meta:
-        ordering = ['date', 'defined_check_in_time']
+        ordering = ['name']
 
-    def __str__(self):
-        return self.name
 
-    def is_booked(self):
-        return self.booked
-
-    def set_booked(self):
-        self.booked = True
+class TimeSlot(models.Model):
+    check_in_time =  models.TimeField(max_length=4)
+    check_out_time = models.TimeField(max_length=4)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    booked = models.BooleanField(default=False)
 
 
 class Booking(models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    date_booked = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
+    date = models.DateField()
     
     # def __str__(self):
     #     return f'{self.user} has booked {self.room} from {self.room.defined_check_in_time} to {self.room.defined_check_out_time} on {self.room.date}'

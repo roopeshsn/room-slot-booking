@@ -31,8 +31,7 @@
   <div class="table-wrapper">
     <table>
       <tr>
-        <th>Name</th>
-        <th>Booked Date</th>
+        <th>Room</th>
         <th>Date</th>
         <th>Checkin Time</th>
         <th>Checkout Time</th>
@@ -41,15 +40,14 @@
       {% for booking in bookings %}
 
       <tr>
-        <td>{{booking.room.name}}</td>
-        <td>{{booking.date_booked}}</td>
-        <td>{{booking.room.date}}</td>
-        <td>{{booking.room.defined_check_in_time}}</td>
-        <td>{{booking.room.defined_check_out_time}}</td>
+        <td>{{booking.time_slot.room.name}}</td>
+        <td>{{booking.date}}</td>
+        <td>{{booking.time_slot.check_in_time}}</td>
+        <td>{{booking.time_slot.check_out_time}}</td>
         <td>
           <a
             class="btn btn-md btn-secondary"
-            href="{% url 'cancel-room' booking.room.id %}"
+            href="{% url 'cancel-room' booking.time_slot.id booking.id %}"
           >
             Cancel
           </a>
