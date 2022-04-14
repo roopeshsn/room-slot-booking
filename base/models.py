@@ -109,6 +109,9 @@ class Room(models.Model):
     class Meta:
         ordering = ['name']
 
+    def __str__(self):
+        return self.room.name
+
 
 class TimeSlot(models.Model):
     check_in_time =  models.TimeField(max_length=4)

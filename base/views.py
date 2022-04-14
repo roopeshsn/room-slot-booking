@@ -1,7 +1,7 @@
-from functools import total_ordering
 from django.shortcuts import redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import RoomForm, TimeSlotForm, RegisterForm, UserUpdateForm
@@ -163,13 +163,13 @@ def cancelRoom(request, ts, pk):
 
 # For Room Manager
 # manage page view
-@login_required(redirect_field_name='/signin')
+@staff_member_required
 def manage(request):
     return render(request, 'base/manage.html')
 
 # Rooms
 # add rooms page view
-@login_required(redirect_field_name='/signin')
+@staff_member_required
 def addRooms(request):
     form = RoomForm()
     current_user = request.user
@@ -182,7 +182,7 @@ def addRooms(request):
     return render(request, 'base/add_rooms.html', {'form': form, 'user': current_user})
 
 # view rooms page view
-@login_required(redirect_field_name='/signin')
+@staff_member_required
 def viewRooms(request):
     rooms = Room.objects.all()
     total_rooms = len(rooms)
@@ -190,7 +190,7 @@ def viewRooms(request):
     return render(request, 'base/view_rooms.html', context)
 
 # update room page view
-@login_required(redirect_field_name='/signin')
+@staff_member_required
 def updateRoom(request, pk):
     room_object = Room.objects.get(id=pk)
     form = RoomForm(instance=room_object)
@@ -203,7 +203,7 @@ def updateRoom(request, pk):
     return render(request, 'base/update_room.html', context)
 
 # delete room page view
-@login_required(redirect_field_name='/signin')
+@staff_member_required
 def deleteRoom(request, pk):
     try:
         room = Room.objects.get(id=pk)
@@ -218,7 +218,7 @@ def deleteRoom(request, pk):
 
 # Timeslots
 # add timeslots for a room page view
-@login_required(redirect_field_name='/signin')
+@staff_member_required
 def addTimeSlots(request, pk):
     room = Room.objects.get(id=pk)
     context = {'room': room}
@@ -230,7 +230,7 @@ def addTimeSlots(request, pk):
     return render(request, 'base/add_timeslots.html', context)
 
 # view timeslots page view
-@login_required(redirect_field_name='/signin')
+@staff_member_required
 def viewTimeSlots(request, pk):
     room = Room.objects.get(id=pk)
     time_slots = TimeSlot.objects.filter(room=room)
@@ -239,7 +239,7 @@ def viewTimeSlots(request, pk):
     return render(request, 'base/view_timeslots.html', context)
 
 # delete timeslot page view
-@login_required(redirect_field_name='/signin')
+@staff_member_required
 def deleteTimeSlot(request, pk):
     try:
         time_slot =TimeSlot.objects.get(id=pk)
@@ -254,7 +254,7 @@ def deleteTimeSlot(request, pk):
 
 # Bookings
 # view bookings page view
-@login_required(redirect_field_name='/signin')
+@staff_member_required
 def viewBookings(request):
     all_bookings = Booking.objects.all()
     context = {'bookings': all_bookings}
