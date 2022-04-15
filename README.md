@@ -39,7 +39,6 @@ View more [screenshots](/static/screenshots/)
 - Test cases written.
 - Django Template System used for rendering HTML pages (Frontend).
 - API endpoints created for managing users, rooms, timeslots, and bookings.
-- Written API Documentation.
 
 ## Details of the project
 
