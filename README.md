@@ -2,6 +2,7 @@
 
 ## FOSSEE Registration Details
 
+Name: Roopesh Saravanan
 Email: helloiamroopesh@gmail.com  
 Username (yaksh.fossee.in): heyroopesh
 
@@ -21,21 +22,24 @@ View more [screenshots](/static/screenshots/)
    OR  
    `git clone https://github.com/roopeshsn/room-slot-booking.git`  
    `cd room-slot-booking`
-2. Create Virtual Environment  
-   `python -m venv venv`
-3. Activate Virtual Environment  
-   `env\scripts\activate`
-4. Install Dependencies  
-   `python -m pip install -r requirements.txt`
-5. Run Server
+2. Install virtualenv  
+   `pip install virtualenv`  
+   If you already installed virtualenv then skip this step.
+3. Create Virtual Environment  
+   `virtualenv venv`
+4. Activate Virtual Environment  
+   `venv\scripts\activate`
+5. Install Dependencies  
+   `pip install -r requirements.txt`
+6. Run Server
    `python manage.py runserver`
-6. Run Tests
+7. Run Tests
    `python manage.py test`
 
 ## Highlights of the project
 
 - PEP-8 standards followed.
-- Built with Django.
+- Built with Django and Django REST Framework.
 - Test cases written.
 - Django Template System used for rendering HTML pages (Frontend).
 - API endpoints created for managing users, rooms, timeslots, and bookings.
