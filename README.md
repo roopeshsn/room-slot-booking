@@ -2,7 +2,7 @@
 
 ## FOSSEE Registration Details
 
-Email: helloiamroopesh@gmail.com
+Email: helloiamroopesh@gmail.com  
 Username (yaksh.fossee.in): heyroopesh
 
 ## Project Details
