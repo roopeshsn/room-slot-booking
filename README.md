@@ -47,6 +47,7 @@ View more [screenshots](/static/screenshots/)
 - A customer can see their respective bookings.
 - A Room manager can add, update or delete rooms and respected timeslots.
 - A Room manager can view the bookings of the user.
+- An Admin can assign the position "Staff", which means Room Manager to anyone who is signed up as a user.
 - A demo database is created with users and rooms with respected timeslots
   1. Admin (superuser): email: "admin@admin.com", password: "admin123"
   2. Room Manager (staff): email: "manager@manager.com", password: "manager123"
