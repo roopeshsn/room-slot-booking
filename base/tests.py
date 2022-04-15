@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
-
-from base.forms import RoomForm
+from base.forms import RoomForm, TimeSlotForm
 from .models import Room, Booking, TimeSlot, User
 
 #Test case for User Model
@@ -56,40 +55,66 @@ class UserTestCase(TestCase):
 
 # Test case for Room Model
 class RoomTestCase(TestCase):
+    # Initial DB setup
     def setUp(self):
-        room_a = Room.objects.create(name='room a', advance_booking=2, booked=False)
-        room_b = Room.objects.create(name='room b', advance_booking=3, booked=False)
+        self.room_a = Room.objects.create(name='room a', advance_booking=2, booked=False)
+        self.room_b = Room.objects.create(name='room b', advance_booking=3, booked=False)
 
+    # Testcase for queryset
     def test_queryset_exists(self):
         qs = Room.objects.all()
         self.assertTrue(qs.exists())
 
-    # def test_create_room(self):
-    #     room_c = Room.objects.create(name='room c', advance_booking=1, booked=False)
-    #     self.assertTrue(room_c)
-
+    # Testcase for valid room form
     def test_room_form(self):
         room_c = Room.objects.create(name='room c', advance_booking=1, booked=False)
         data = {'name': room_c.name, 'advance_booking': room_c.advance_booking,}
         form = RoomForm(data=data)
         self.assertTrue(form.is_valid())
 
-    def test_room_form(self):
+    # Testcase for invalid room form
+    def test_room_form_invalid(self):
         room_c = Room.objects.create(name='', advance_booking=1, booked=False)
         data = {'name': room_c.name, 'advance_booking': room_c.advance_booking,}
         form = RoomForm(data=data)
         self.assertFalse(form.is_valid())
+
+# Test case for Timeslot Model
+class TimeSlotTestCase(TestCase):
+    # Initial DB setup
+    def setUp(self):
+        self.room_a = Room.objects.create(name='room a', advance_booking=2, booked=False)
+        self.timeslot_a = TimeSlot.objects.create(check_in_time='13:00', check_out_time='15:00', room=self.room_a, booked=False)
     
+    # Testcase for queryset
+    def test_queryset_exists(self):
+        qs = TimeSlot.objects.all()
+        self.assertTrue(qs.exists())
+
+    # Testcase for valid timeslot form
+    def test_timeslot_form(self):
+        data = {'check_in_time': self.timeslot_a.check_in_time, 'check_out_time': self.timeslot_a.check_out_time, 'room': self.room_a,}
+        form = TimeSlotForm(data=data)
+        self.assertTrue(form.is_valid())
+
+    # Testcase for invalid valid timeslot form
+    def test_timeslot_form_invalid(self):
+        data = {'check_in_time': '', 'check_out_time': self.timeslot_a.check_out_time, 'room': self.room_a,}
+        form = TimeSlotForm(data=data)
+        self.assertFalse(form.is_valid())
+
 
 # Test case for Booking Model
 class BookingTestCase(TestCase):
+    # Initial DB setup
     def setUp(self):
-        self.user1 = User.objects.create(email='test321@test.com', password='123')
-        self.room1 = Room.objects.create(name='Room 23', advance_booking=2, booked=False)
-        self.room2 = Room.objects.create(name='Room 25', advance_booking=2, booked=False)
-        self.timeslot1 = TimeSlot.objects.create(check_in_time='12:00', check_out_time='18:00', room=self.room1, booked=False)
-        Booking.objects.create(user=self.user1, time_slot=self.timeslot1, date='2022-04-17')
+        self.user_a = User.objects.create(name='user a', email='usera@user.com', password='123')
+        self.room_a = Room.objects.create(name='room a', advance_booking=2, booked=False)
+        self.room_b = Room.objects.create(name='room b', advance_booking=1, booked=False)
+        self.timeslot_a = TimeSlot.objects.create(check_in_time='12:00', check_out_time='18:00', room=self.room_a, booked=False)
+        Booking.objects.create(user=self.user_a, time_slot=self.timeslot_a, date='2022-04-18')
 
+    # Testcase for queryset
     def test_queryset_exists(self):
         qs = Booking.objects.all()
         self.assertTrue(qs.exists())
