@@ -2,7 +2,7 @@
 
 ## FOSSEE Registration Details
 
-Name: Roopesh Saravanan
+Name: Roopesh Saravanan  
 Email: helloiamroopesh@gmail.com  
 Username (yaksh.fossee.in): heyroopesh
 
@@ -31,9 +31,9 @@ View more [screenshots](/static/screenshots/)
    `venv\scripts\activate`
 5. Install Dependencies  
    `pip install -r requirements.txt`
-6. Run Server
+6. Run Server  
    `python manage.py runserver`
-7. Run Tests
+7. Run Tests  
    `python manage.py test`
 
 ## Highlights of the project
