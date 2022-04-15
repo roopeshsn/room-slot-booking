@@ -11,7 +11,7 @@
   <h1>Status for {{time_slot.room.name}}</h1>
   {% if message == "SUCCESS" %}
   <div class="info-wrapper">
-    <p class="success">{{time_slot.room}} successfully booked!</p>
+    <p class="success">{{time_slot.room.name}} successfully booked!</p>
   </div>
   <!-- prettier-ignore -->
   {% elif message == "ALREADY YOU" %}

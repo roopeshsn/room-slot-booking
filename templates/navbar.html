@@ -1,4 +1,6 @@
 <nav>
   <div><a href="{% url 'home' %}" class="nav-brand">Room Slot Booking</a></div>
+  {% if request.user.is_authenticated %}
   <div><a class="nav-profile" href="{% url 'user-profile' %}">Profile</a></div>
+  {% endif %}
 </nav>
