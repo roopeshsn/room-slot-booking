@@ -37,6 +37,8 @@ View more [screenshots](/static/screenshots/)
 7. Run Tests  
    `python manage.py test`
 
+Note: I am using Windows machine
+
 ## Highlights of the project
 
 - PEP-8 standards followed.
