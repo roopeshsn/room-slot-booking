@@ -11,7 +11,7 @@ A Room Slot Booking Application, built using Python, Django, and Django REST Fra
 
 ![HomePage Image](/static/screenshots/customer/1-HomePage.png)
 
-View more [screenshots](//static/screenshots/)
+View more [screenshots](/static/screenshots/)
 
 ## Setup
 
