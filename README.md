@@ -19,7 +19,7 @@ View more [screenshots](/static/screenshots/)
 ### Download Code and Run
 
 1. Download and Extract the zip file of the project and cd into  
-   `cd room-slot-booking-master`
+   `cd room-slot-booking-master`  
    OR  
    `git clone https://github.com/roopeshsn/room-slot-booking.git`  
    `cd room-slot-booking`
