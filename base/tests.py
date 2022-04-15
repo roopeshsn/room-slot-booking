@@ -79,6 +79,7 @@ class RoomTestCase(TestCase):
         form = RoomForm(data=data)
         self.assertFalse(form.is_valid())
 
+
 # Test case for Timeslot Model
 class TimeSlotTestCase(TestCase):
     # Initial DB setup

@@ -10,6 +10,7 @@ from datetime import datetime, date, timedelta
 
 User = get_user_model()
 
+
 # home page view
 def home(request):
     return render(request, 'base/home.html')
@@ -33,8 +34,6 @@ def signinPage(request):
             return redirect('dashboard')
         else:
             messages.info(request, 'Username or Password doesnot exist!')
-
-    print(request)
             
     context = {'page': page}
     return render(request, 'base/login_register.html', context)
@@ -154,10 +153,12 @@ def bookRoom(request, p_date, pk):
 @login_required(redirect_field_name='/signin')
 def cancelRoom(request, ts, pk):
     booking = Booking.objects.filter(id=pk)
+
     if request.method == 'POST':
         booking.delete()
         TimeSlot.objects.filter(id=ts).update(booked=False)
         return redirect('user-bookings')
+    
     context = {'booking': booking}
     return render(request, 'base/cancel_room.html', context)
 
@@ -173,6 +174,7 @@ def manage(request):
 def addRooms(request):
     form = RoomForm()
     current_user = request.user
+
     if request.method == 'POST':
         form = RoomForm(request.POST)
         if form.is_valid():
@@ -186,6 +188,7 @@ def addRooms(request):
 def viewRooms(request):
     rooms = Room.objects.all()
     total_rooms = len(rooms)
+
     context = {'rooms': rooms, 'total_rooms': total_rooms}
     return render(request, 'base/view_rooms.html', context)
 
@@ -194,11 +197,13 @@ def viewRooms(request):
 def updateRoom(request, pk):
     room_object = Room.objects.get(id=pk)
     form = RoomForm(instance=room_object)
+
     if request.method == 'POST':
         form = RoomForm(request.POST, instance=room_object)
         if form.is_valid():
             form.save()
             return redirect('dashboard')
+
     context = {'form': form,'room': room_object}
     return render(request, 'base/update_room.html', context)
 
@@ -214,6 +219,7 @@ def deleteRoom(request, pk):
     if request.method == 'POST':
         room.delete()
         return redirect('view-rooms')
+
     return render(request, 'base/delete.html', context)
 
 # Timeslots
@@ -222,11 +228,13 @@ def deleteRoom(request, pk):
 def addTimeSlots(request, pk):
     room = Room.objects.get(id=pk)
     context = {'room': room}
+
     if request.method == 'POST':
         check_in_time = request.POST['check_in_time']
         check_out_time = request.POST['check_out_time']
         TimeSlot.objects.create(check_in_time=check_in_time, check_out_time=check_out_time, room=room)
         return redirect('view-timeslots', room.id)
+    
     return render(request, 'base/add_timeslots.html', context)
 
 # view timeslots page view
@@ -234,7 +242,7 @@ def addTimeSlots(request, pk):
 def viewTimeSlots(request, pk):
     room = Room.objects.get(id=pk)
     time_slots = TimeSlot.objects.filter(room=room)
-    print(time_slots)
+
     context = {'time_slots': time_slots, 'room': room}
     return render(request, 'base/view_timeslots.html', context)
 
@@ -247,9 +255,11 @@ def deleteTimeSlot(request, pk):
         context = {'time_slot': time_slot}
     except:
         context = {'error': 'An error occured!'}
+
     if request.method == 'POST':
         time_slot.delete()
         return redirect('view-timeslots', room.id)
+
     return render(request, 'base/delete_timeslot.html', context)
 
 # Bookings
@@ -257,6 +267,7 @@ def deleteTimeSlot(request, pk):
 @staff_member_required
 def viewBookings(request):
     all_bookings = Booking.objects.all()
+
     context = {'bookings': all_bookings}
     return render(request, 'base/bookings.html', context)
 

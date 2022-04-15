@@ -9,7 +9,6 @@ User = get_user_model()
 class RegisterForm(forms.ModelForm):
     """
     The default 
-
     """
 
     password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -122,18 +121,6 @@ class UserAdminChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['name', 'email']
-        # widgets = {
-        #     'email': forms.EmailInput(attrs={
-        #         'class': "form-control", 
-        #         'placeholder': 'Your Email'
-        #     })
-        # }
-
-    # def clean_password(self):
-    #     # Regardless of what the user provides, return the initial value.
-    #     # This is done here, rather than on the field, because the
-    #     # field does not have access to the initial value
-    #     return self.initial["password"]
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -176,16 +163,5 @@ class TimeSlotForm(forms.ModelForm):
         cleaned_data = self.cleaned_data
         return cleaned_data
 
-# class BookingForm(forms.ModelForm):
-#     class Meta:
-#         model = Booking
-#         fields = ('date')
-#         widgets = {
-#             'date': forms.DateInput(attrs={'class': "form-control"})
-#         }
-
-#     def clean(self):
-#         cleaned_data = self.cleaned_data
-#         return cleaned_data
 
 
