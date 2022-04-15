@@ -9,6 +9,10 @@ Username (yaksh.fossee.in): heyroopesh
 
 A Room Slot Booking Application, built using Python, Django, and Django REST Framework.
 
+![HomePage Image](/static/screenshots/customer/1-HomePage.png)
+
+View more [screenshots](//static/screenshots/)
+
 ## Setup
 
 ### Download Code and Run
