@@ -1,10 +1,6 @@
 # Room Slot Booking
 
-## FOSSEE Registration Details
-
-Name: Roopesh Saravanan  
-Email: helloiamroopesh@gmail.com  
-Username (yaksh.fossee.in): heyroopesh
+A Room booking application where a user can book a room in advance.
 
 ## Project Details
 
